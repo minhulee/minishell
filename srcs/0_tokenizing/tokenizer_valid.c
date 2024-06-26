@@ -6,31 +6,32 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:00:11 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/22 15:01:13 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/06/26 22:49:47 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+ * 기존에 스택으로 따옴표 에러를 검사하는 로직에서
+ * "hello'" 이런 경우를 에러로 처리했었음.
+ * 에러 판단하는 로직을 수정함.
+ */
 t_bool	valid_quotes(char *line)
 {
-	t_stack	*st;
-	t_bool	flag;
+	char	tmp;
 
-	st = NULL;
 	while (*line != '\0')
 	{
 		if (*line == '\'' || *line == '\"')
 		{
-			if (st_is_empty(st) || st->quote != *line)
-            	st_push(&st, *line);
-            else
-            	st_pop(&st);
+			tmp = *line;
+			line++;
+			line = ft_strchr(line, tmp);
+			if (line == NULL)
+				return (FALSE);
 		}
 		line++;
 	}
-	flag = st_is_empty(st);
-	while (st_is_empty(st) == FALSE)
-		st_pop(&st);
-	return (flag);
+	return (TRUE);
 }

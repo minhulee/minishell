@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/23 15:50:30 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/06/26 22:49:48 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ t_token	*ft_strtok(char *line);
 t_token	*token_lst_new(char *value, t_token_type type);
 void	token_lst_clear(t_token **lst);
 void	token_lst_add_back(t_token **lst, t_token *new);
-
-// tokenizer_stack.c
-t_stack	*st_create_node(char quote);
-void	st_push(t_stack **stack, char quote);
-char	st_pop(t_stack **stack);
-t_bool	st_is_empty(t_stack *stack);
 
 // lst_printf
 void	token_lst_printf(t_token *lst);
