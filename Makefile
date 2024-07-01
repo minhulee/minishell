@@ -6,7 +6,7 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/06/26 22:36:24 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/01 11:40:05 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRCS = ./srcs/main.c \
 	./srcs/0_tokenizing/tokenizer_classify.c \
 	./srcs/1_parsing/parser.c \
 	./srcs/1_parsing/parser_lst.c \
+	./srcs/1_parsing/parser_f_lst.c \
+	./srcs/1_parsing/parser_init.c \
 	./srcs/1_parsing/parser_utils.c \
 	./srcs/1_parsing/parser_valid.c \
 	./srcs/1_parsing/parser_valid_utils.c \
