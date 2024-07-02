@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 15:03:27 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:18:29 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 // pipex + redirect + heredoc.
 // cmd 구조체 path 확인.
+
+// cmd args 가 적절하지 않을 시 처리 필요.
 t_status	ft_execute(t_command *cmd, char **envp)
 {
 	char		**split_path;
