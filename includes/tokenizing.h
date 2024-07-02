@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 22:49:48 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 11:29:53 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # include "./basic.h"
 # include "./define.h"
-
-typedef struct	s_stack
-{
-    char quote;
-    struct s_stack *next;
-}	t_stack;
 
 typedef struct	s_token
 {
