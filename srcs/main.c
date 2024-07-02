@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 12:35:34 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:06:37 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		if (cmd == NULL)
 			continue ;
 		ft_execute(cmd, envp);
-		cmd_lst_printf(cmd);
+		// cmd_lst_printf(cmd);
 	}
 	exit(SUCCESS);
 }

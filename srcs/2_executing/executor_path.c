@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 12:27:42 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:04:26 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ t_status	get_path(char **path, t_command **cmd)
 	{
 		tmp->cmd_path = get_cmd_path(path, tmp->cmd);
 		if (tmp->cmd_path == NULL)
+		{
+			printf("Command not found\n");
 			return (FAIL);
+		}
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

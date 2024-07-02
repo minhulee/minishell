@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 12:41:06 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:03:01 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ t_status	init_arg(t_command **cmd_lst, t_token *token, int cnt)
 {
 	int	i;
 
-	(*cmd_lst)->args = (char **)ft_calloc(cnt + 1, sizeof(char *));
+	(*cmd_lst)->args = (char **)ft_calloc(cnt + 2, sizeof(char *));
 	if ((*cmd_lst)->args == NULL)
 		return (FAIL);
 	i = 0;
-	while (i < cnt && token != NULL)
+	while (i < cnt + 1 && token != NULL)
 	{
-		if (token->type == ARGUMENT)
+		if (token->type == COMMAND || token->type == ARGUMENT)
 		{
 			(*cmd_lst)->args[i] = token->value;
 			i++;

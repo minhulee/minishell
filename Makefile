@@ -6,7 +6,7 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/02 12:39:06 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/02 14:24:12 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ SRCS = ./srcs/main.c \
 	./srcs/1_parsing/parser_valid.c \
 	./srcs/1_parsing/parser_valid_utils.c \
 	./srcs/2_executing/executor.c \
-	./srcs/2_executing/executor_utils.c \
-	./srcs/2_executing/executor_path.c
+	./srcs/2_executing/executor_path.c \
+	./srcs/2_executing/executor_run.c \
 
 OBJS = $(SRCS:.c=.o)
 INCLUDES = -L./libft -lft -I./includes

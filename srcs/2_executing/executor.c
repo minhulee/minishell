@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 13:45:47 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:03:27 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ t_status	ft_execute(t_command *cmd, char **envp)
 	// 각 cmd_path
 	if (get_path(split_path, &cmd) == FAIL)
 		return (FAIL);
-	run_command(cmd, cmd_cnt(cmd));
+	run_commands(cmd, envp);
 	return (SUCCESS);
 }
