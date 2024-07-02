@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 11:29:53 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 11:29:30 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	token_lst_printf(t_token *lst);
 t_bool		valid_quotes(char *line);
 t_bool		ft_isspace(char c);
 t_bool		ft_isquote(char c);
+t_bool		ft_isoperator(char c);
 t_status	skip_quotes(char *line, int *i);
 
 // tokenizer_classify.c

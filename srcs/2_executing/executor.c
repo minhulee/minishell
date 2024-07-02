@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 22:51:26 by jewlee           ###   ########.fr       */
+/*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/02 13:45:47 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// a<b b| 연산자가 붙어있을때
-// infile outfile 리스트로!~
-
-t_token	*ft_tokenize(char *line)
+// pipex + redirect + heredoc.
+// cmd 구조체 path 확인.
+t_status	ft_execute(t_command *cmd, char **envp)
 {
-	t_token	*token_lst;
+	char		**split_path;
+	char		*path_env;
 
-	if (valid_quotes(line) == FALSE)
-	{
-		printf("Quotes errors\n");
-		return (NULL);
-	}
-	token_lst = ft_strtok(line);
-	free(line);
-	return (token_lst);
+	// path 찾기
+	path_env = find_path(envp);
+	// : 로 분리
+	split_path = ft_split(path_env, ':');
+	// 각 cmd_path
+	if (get_path(split_path, &cmd) == FAIL)
+		return (FAIL);
+	run_command(cmd, cmd_cnt(cmd));
+	return (SUCCESS);
 }

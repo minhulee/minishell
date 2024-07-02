@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 11:37:38 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/01 11:37:57 by jewlee           ###   ########.fr       */
+/*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/02 12:41:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ t_status	init_arg(t_command **cmd_lst, t_token *token, int cnt)
 {
 	int	i;
 
-	(*cmd_lst)->args = (char **)ft_calloc(cnt + 2, sizeof(char *));
+	(*cmd_lst)->args = (char **)ft_calloc(cnt + 1, sizeof(char *));
 	if ((*cmd_lst)->args == NULL)
 		return (FAIL);
 	i = 0;
-	while (i < cnt + 1 && token != NULL)
+	while (i < cnt && token != NULL)
 	{
-		if (token->type == COMMAND || token->type == ARGUMENT)
+		if (token->type == ARGUMENT)
 		{
 			(*cmd_lst)->args[i] = token->value;
 			i++;

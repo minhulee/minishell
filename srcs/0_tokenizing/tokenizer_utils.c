@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:19:18 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/21 15:54:37 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/06/25 02:51:19 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ t_bool	ft_isspace(char c)
 t_bool	ft_isquote(char c)
 {
 	if (c == '\'' || c == '\"')
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool	ft_isoperator(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
 		return (TRUE);
 	return (FALSE);
 }

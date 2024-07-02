@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/01 11:39:01 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 12:10:52 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	cmd_lst_add_back(t_command **cmd_lst, t_command *new)
 	while (curr->next != NULL)
 		curr = curr->next;
 	curr->next = new;
+	new->prev = curr;
 }
 
 t_command	*cmd_lst_last(t_command *cmd)
@@ -55,7 +56,7 @@ void	cmd_lst_clear(t_command **lst)
 	if (lst == NULL)
 		return ;
 	curr = *lst;
-	while (curr)
+	while (curr != NULL)
 	{
 		tmp = curr->next;
 		free(curr);
@@ -73,6 +74,7 @@ void	cmd_lst_printf(t_command *cmd_lst)
 	while (cmd_lst != NULL)
 	{
 		printf("cmd : %s\n", cmd_lst->cmd);
+		printf("cmd_path : %s\n", cmd_lst->cmd_path);
 		i = 0;
 		while ((cmd_lst->args)[i] != NULL)
 		{

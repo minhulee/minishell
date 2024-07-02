@@ -6,12 +6,13 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/23 19:55:02 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 12:35:34 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// envp -> 리스트로 .
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -30,12 +31,11 @@ int	main(int argc, char **argv, char **envp)
 		token = ft_tokenize(line);
 		if (token == NULL)
 			continue ;
-		// token_lst_printf(token);
 		cmd = ft_parse(token);
 		if (cmd == NULL)
 			continue ;
+		ft_execute(cmd, envp);
 		cmd_lst_printf(cmd);
-		// executor
 	}
 	exit(SUCCESS);
 }

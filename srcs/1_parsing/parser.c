@@ -6,12 +6,11 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/01 11:38:30 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 12:34:56 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 // cmd [args...] | cmd [args...] -> 파이프 개수 + 1
 static t_command	*prepare_cmd_lst(t_token *token, int num_pipe)
 {

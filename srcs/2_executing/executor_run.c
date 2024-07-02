@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   executor_run.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 22:51:26 by jewlee           ###   ########.fr       */
+/*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/02 13:44:32 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// a<b b| 연산자가 붙어있을때
-// infile outfile 리스트로!~
-
-t_token	*ft_tokenize(char *line)
+// heredoc 유의
+// pipe시 포크떠서 cmd .
+// 리다이렉션 왔을시, 표준 출력 파일 fd값으로 바꾸기.
+void run_commands(t_command *cmd, int cmd_cnt)
 {
-	t_token	*token_lst;
+	int		pipefd[2];
+	pid_t	pid;
+	t_command *curr;
 
-	if (valid_quotes(line) == FALSE)
-	{
-		printf("Quotes errors\n");
-		return (NULL);
-	}
-	token_lst = ft_strtok(line);
-	free(line);
-	return (token_lst);
 }

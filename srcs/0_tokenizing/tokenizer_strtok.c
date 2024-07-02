@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:13:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/22 15:48:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/06/26 22:52:02 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static t_status	tokenize_identifier(char **line, t_token **token_lst)
 	t_token	*new;
 	int		i;
 
-	i = 0;
+	i = -1;
 	tmp = *line;
-	while (tmp[i] != '\0')
+	while (tmp[++i] != '\0')
 	{
-		if (ft_isspace(tmp[i]) == TRUE || ft_isquote(tmp[i]) == TRUE)
+		if (ft_isspace(tmp[i]) == TRUE || ft_isquote(tmp[i]) == TRUE
+			|| ft_isoperator(tmp[i]) == TRUE)
 			break ;
-		i++;
 	}
 	value = ft_substr(tmp, 0, i);
 	if (value == NULL)

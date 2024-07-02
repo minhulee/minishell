@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/01 11:37:12 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 11:32:27 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_file
 
 typedef struct	s_command
 {
+	char				*cmd_path;
 	char				*cmd;
 	char				**args;
 	char				*heredoc; // <<
@@ -63,5 +64,6 @@ void		cmd_lst_printf(t_command *cmd_lst);
 t_file	*file_lst_new(t_token_type type, char *name);
 void	file_lst_add_back(t_file **f_lst, t_file *new);
 void	file_lst_clear(t_file **lst);
+
 
 #endif

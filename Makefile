@@ -6,7 +6,7 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/01 11:40:05 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/02 12:39:06 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,15 @@ SRCS = ./srcs/main.c \
 	./srcs/0_tokenizing/tokenizer_valid.c \
 	./srcs/0_tokenizing/tokenizer_classify.c \
 	./srcs/1_parsing/parser.c \
+	./srcs/1_parsing/parser_init.c \
 	./srcs/1_parsing/parser_lst.c \
 	./srcs/1_parsing/parser_f_lst.c \
-	./srcs/1_parsing/parser_init.c \
 	./srcs/1_parsing/parser_utils.c \
 	./srcs/1_parsing/parser_valid.c \
 	./srcs/1_parsing/parser_valid_utils.c \
+	./srcs/2_executing/executor.c \
+	./srcs/2_executing/executor_utils.c \
+	./srcs/2_executing/executor_path.c
 
 OBJS = $(SRCS:.c=.o)
 INCLUDES = -L./libft -lft -I./includes
@@ -44,6 +47,12 @@ make_mandatory : $(OBJS)
 	$(MAKE_CUR) $(LIBFT_DIR) bonus
 	$(CC) $(LDFLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
 	@ touch make_mandatory
+
+debug :
+	cc -g -lreadline $(SRCS) ./libft/*.c
+
+dclean :
+	rm -rf ./a.out ./a.out.dSYM
 
 %.o : %.c
 	$(CC) -c $< -o $@
