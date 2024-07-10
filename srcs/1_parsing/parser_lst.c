@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 12:10:52 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/06 16:32:42 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_command	*cmd_lst_new(char *cmd)
 	if (new == NULL)
 		return (NULL);
 	new->cmd = cmd;
+	new->prev_pipe_fd[0] = NONE;
+	new->prev_pipe_fd[1] = NONE;
+	new->infile_fd = NONE;
+	new->outfile_fd = NONE;
 	return (new);
 }
 
@@ -68,8 +72,7 @@ void	cmd_lst_clear(t_command **lst)
 void	cmd_lst_printf(t_command *cmd_lst)
 {
 	int		i;
-	t_file	*tmp1;
-	t_file	*tmp2;
+	t_file	*tmp;
 
 	while (cmd_lst != NULL)
 	{
@@ -81,23 +84,17 @@ void	cmd_lst_printf(t_command *cmd_lst)
 			printf("args[%d]: %s\n", i, cmd_lst->args[i]);
 			i++;
 		}
-		tmp1 = cmd_lst->input_file;
-		while (tmp1 != NULL)
+		tmp = cmd_lst->file_lst;
+		while (tmp != NULL)
 		{
-			printf("input_file : %s\n", tmp1->file_name);
-			tmp1 = tmp1->next;
+			if (tmp->type == HEREDOC)
+				printf("heredoc : %s\n", tmp->delimit);
+			else
+				printf("input_file : %s\n", tmp->file_name);
+			tmp = tmp->next;
 		}
-		tmp2 = cmd_lst->output_file;
-		while (tmp2 != NULL)
-		{
-			if (tmp2->type == OUTPUT_REDIRECT)
-				printf("output file : %s\n", tmp2->file_name);
-			else if (tmp2->type == APPEND_O_REDIRECT)
-				printf("append output file : %s\n", tmp2->file_name);
-			tmp2 = tmp2->next;
-		}
-		printf("heredoc : %s\n", cmd_lst->heredoc);
-		printf("heredoc_flag : %d\n", cmd_lst->heredoc_flag);
+		printf("heredoc_cnt : %d\n", cmd_lst->heredoc_cnt);
+		printf("Builtin %d\n", cmd_lst->builtin_type);
 		printf("------------\n");
 		cmd_lst = cmd_lst->next;
 	}

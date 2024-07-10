@@ -6,71 +6,89 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 15:00:35 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:26:25 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// heredoc 유의
-// pipe시 포크떠서 cmd .
-// 리다이렉션 왔을시, 표준 출력 파일 fd값으로 바꾸기.
-void run_commands(t_command *cmd, char **envp)
+// > d cat
+static void child_process(t_command *cmd, t_info *info)
 {
-	pid_t	pid;
-	int		status;
-	int		pipe_fd[2];
-	int		prev_pipe_fd[2] = {-1, -1};
+	set_fd(cmd, info);
+	if (cmd->cmd == NULL) // 명령어가 NULL 일때
+		exit(SUCCESS);
+	if (cmd->cmd_path == NULL && cmd->cmd != NULL) // 적절한 명령어가 아닐때
+	{
+		err_printf(cmd->cmd);
+		exit(FAIL);
+	}
+	else 
+	{
+		if (cmd->builtin_type != NOTBUILTIN)
+			ft_builtins(cmd, info);
+		else
+		{
+			if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
+			{
+				perror("execve() error\n");
+				exit(FAIL);
+			}
+		}
+		exit(SUCCESS);
+	}
+	// 썻던 fd 닫아야함.
+}
 
+static void	parent_process(t_command *cmd, int *pipe_fd
+	, int *prev_pipe_fd)
+{
+	if (cmd->next != NULL)
+	{
+		close(pipe_fd[1]);
+		prev_pipe_fd[0] = pipe_fd[0];
+		prev_pipe_fd[1] = pipe_fd[1];
+	}
+	else
+	{
+		if (prev_pipe_fd[0] != -1)
+		{
+			close(prev_pipe_fd[0]);
+			close(prev_pipe_fd[1]);
+		}
+	}
+}
+
+t_bool fork_error_catch(pid_t pid)
+{
+	if(pid == -1)
+	{
+		perror("fork() error\n");
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+void run_commands(t_info *info, t_command *cmd, int *cnt)
+{
+	int	i;
+
+	i = 0;
 	while (cmd != NULL)
 	{
 		if (cmd->next != NULL)
 		{
-			if (pipe(pipe_fd) == -1)
-			{
-				printf("pipe() error\n");
-			}
+			if (pipe(cmd->curr_pipe_fd) == -1)
+				return (perror("pipe() error\n")); 
 		}
-		pid = fork();
-		if (pid == -1)
-		{
-			printf("fork() error\n");
-		}
-		else if (pid == 0)
-		{
-			if (cmd->next != NULL) // 파이프가 있을 경우
-			{
-				dup2(pipe_fd[1], STDOUT_FILENO);
-				close(pipe_fd[0]);
-			}
-			if (prev_pipe_fd[0] != -1)
-			{
-				dup2(prev_pipe_fd[0], STDIN_FILENO);
-				close(prev_pipe_fd[1]);
-			}
-			if (execve(cmd->cmd_path, cmd->args, envp) == -1)
-			{
-				printf("execve() error\n");
-			}
-		}
+		info->pid = fork();
+		if(fork_error_catch(info->pid))
+			return ;
+		else if (info->pid == 0)
+			child_process(cmd, info);
 		else
-		{
-			if (cmd->next != NULL)
-			{
-				close(pipe_fd[1]);
-				prev_pipe_fd[0] = pipe_fd[0];
-				prev_pipe_fd[1] = pipe_fd[1];
-			}
-			else
-			{
-				if (prev_pipe_fd[0] != -1)
-				{
-					close(prev_pipe_fd[0]);
-					close(prev_pipe_fd[1]);
-				}
-			}
-		}
-		waitpid(pid, &status, 0);
+			parent_process(cmd, cmd->curr_pipe_fd, cmd->prev_pipe_fd);
 		cmd = cmd->next;
+		(*cnt)++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 12:34:56 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/06 15:04:38 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ t_command	*ft_parse(t_token *token)
 	if (init_operator(&cmd_lst, token) == FAIL)
 	{
 		token_lst_clear(&token);
-		file_lst_clear(&(cmd_lst->input_file));
-		file_lst_clear(&(cmd_lst->output_file));
+		file_lst_clear(&(cmd_lst->file_lst));
 		cmd_lst_clear(&cmd_lst);
 		return (NULL);
 	}
+	check_builtin(cmd_lst);
 	return (cmd_lst);
 }

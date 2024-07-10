@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 11:29:30 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/02 16:51:45 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 # define TOKENIZING_H
 
 # include "./basic.h"
-# include "./define.h"
+
+typedef enum	e_token_type
+{
+	COMMAND,
+	ARGUMENT,
+	INPUT_REDIRECT,
+	OUTPUT_REDIRECT,
+	APPEND_O_REDIRECT,
+	HEREDOC,
+	PIPE,
+	FILE_NAME,
+	END_OF_FILE,
+}	t_token_type;
 
 typedef struct	s_token
 {

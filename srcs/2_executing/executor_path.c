@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 15:04:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/06 14:16:00 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*get_cmd_path(char **path, char *cmd)
 	char	*path_cmd;
 	char	*tmp;
 
+	if (cmd == NULL)
+		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
 	path_cmd = ft_strjoin("/", cmd);
@@ -54,7 +56,7 @@ char	*get_cmd_path(char **path, char *cmd)
 	return (NULL);
 }
 
-t_status	get_path(char **path, t_command **cmd)
+void	get_path(char **path, t_command **cmd)
 {
 	t_command	*tmp;
 
@@ -62,12 +64,6 @@ t_status	get_path(char **path, t_command **cmd)
 	while (tmp != NULL)
 	{
 		tmp->cmd_path = get_cmd_path(path, tmp->cmd);
-		if (tmp->cmd_path == NULL)
-		{
-			printf("Command not found\n");
-			return (FAIL);
-		}
 		tmp = tmp->next;
 	}
-	return (SUCCESS);
 }

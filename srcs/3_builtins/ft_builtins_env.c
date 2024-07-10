@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic.h                                            :+:      :+:    :+:   */
+/*   ft_builtins_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 16:50:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/05 19:32:29 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/06 21:20:46 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/09 23:26:38 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BASIC_H
-# define BASIC_H
+#include "../../includes/minishell.h"
 
-typedef enum	e_bool
+void	builtins_env(t_info *info)
 {
-	FALSE,
-	TRUE,
-}	t_bool;
+	int	i;
 
-typedef enum	e_status
-{
-	SUCCESS,
-	FAIL,
-}	t_status;
-
-#endif
+	i = -1;
+	while (info->dup_envp[++i] != NULL)
+		printf("%s\n", info->dup_envp[i]);
+}

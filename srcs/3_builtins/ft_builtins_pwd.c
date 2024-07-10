@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   define.h                                           :+:      :+:    :+:   */
+/*   ft_builtins_pwd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 11:48:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/25 23:56:57 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/06 17:24:11 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/07 21:47:12 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFINE_H
-# define DEFINE_H
+#include "../../includes/minishell.h"
 
-typedef enum	e_token_type
+void	builtins_pwd(t_command *cmd)
 {
-	COMMAND,
-	ARGUMENT,
-	INPUT_REDIRECT,
-	OUTPUT_REDIRECT,
-	APPEND_O_REDIRECT,
-	HEREDOC,
-	PIPE,
-	FILE_NAME,
-	END_OF_FILE,
-}	t_token_type;
+	char	cwd[PATH_MAX];
 
-#endif
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		printf("getcwd() error\n");
+	else
+		printf("%s\n", cwd);
+	return ;
+}

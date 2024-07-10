@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 15:03:01 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:56:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,10 @@ t_status	init_redirect(t_command **tmp, t_token *token)
 	new = file_lst_new(token->type, token->next->value);
 	if (new == NULL)
 		return (FAIL);
-	if (token->type == INPUT_REDIRECT)
-		file_lst_add_back(&((*tmp)->input_file), new);
-	else if (token->type == OUTPUT_REDIRECT
-		|| token->type == APPEND_O_REDIRECT)
-		file_lst_add_back(&((*tmp)->output_file), new);
+	if (token->type == INPUT_REDIRECT || token->type == HEREDOC
+		|| token->type == APPEND_O_REDIRECT
+		|| token->type == OUTPUT_REDIRECT)
+		file_lst_add_back(&((*tmp)->file_lst), new);
 	return (SUCCESS);
 }
 
@@ -89,17 +88,15 @@ t_status	init_operator(t_command **cmd_lst, t_token *token)
 		if (token->type == PIPE)
 			tmp = tmp->next;
 		else if (token->type == INPUT_REDIRECT
+			|| token->type == HEREDOC
 			|| token->type == OUTPUT_REDIRECT
 			|| token->type == APPEND_O_REDIRECT)
 		{
 			if (init_redirect(&tmp, token) == FAIL)
 				return (FAIL);
 		}
-		else if (token->type == HEREDOC)
-		{
-			tmp->heredoc = token->next->value;
-			tmp->heredoc_flag = TRUE;
-		}
+		if (token->type == HEREDOC)
+			(tmp->heredoc_cnt)++;
 		token = token->next;
 	}
 	return (SUCCESS);

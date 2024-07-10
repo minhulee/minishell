@@ -6,13 +6,13 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 23:57:50 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 00:31:38 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:57:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_file	*file_lst_new(t_token_type type, char *name)
+t_file	*file_lst_new(t_token_type type, char *content)
 {
 	t_file	*new;
 
@@ -20,7 +20,10 @@ t_file	*file_lst_new(t_token_type type, char *name)
 	if (new == NULL)
 		return (NULL);
 	new->type = type;
-	new->file_name = name;
+	if (type == HEREDOC)
+		new->delimit = content;
+	else
+		new->file_name = content;
 	return (new);
 }
 

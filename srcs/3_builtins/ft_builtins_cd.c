@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic.h                                            :+:      :+:    :+:   */
+/*   ft_builtins_cd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 16:50:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/05 19:32:29 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/06 18:39:49 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/06 21:11:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BASIC_H
-# define BASIC_H
+#include "../../includes/minishell.h"
 
-typedef enum	e_bool
+// 다시 구현바람.
+void	builtins_cd(t_command *cmd)
 {
-	FALSE,
-	TRUE,
-}	t_bool;
+	char	*new_dir;
+	char	cwd[PATH_MAX];
 
-typedef enum	e_status
-{
-	SUCCESS,
-	FAIL,
-}	t_status;
-
-#endif
+	new_dir = cmd->args[1];
+	chdir(new_dir);
+	getcwd(cwd, sizeof(cwd));
+	printf("%s\n", cwd);
+}
