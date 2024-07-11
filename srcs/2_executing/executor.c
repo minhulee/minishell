@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/10 16:18:34 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 00:06:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ t_status	ft_execute(t_info *info)
 	int			ps_cnt;
 
 	if (info->cmd->next == NULL && info->cmd->builtin_type != NOTBUILTIN)
-	{
-		info->cmd->is_parent = TRUE;
 		ft_builtins(info->cmd, info); // 단일 cmd + builtin
-	}
 	else
 	{
 		path_env = find_path(info->dup_envp);

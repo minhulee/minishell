@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/10 15:26:25 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 00:09:27 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,10 @@ static void child_process(t_command *cmd, t_info *info)
 	}
 	else 
 	{
-		if (cmd->builtin_type != NOTBUILTIN)
-			ft_builtins(cmd, info);
-		else
+		if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
 		{
-			if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
-			{
-				perror("execve() error\n");
-				exit(FAIL);
-			}
+			perror("execve() error\n");
+			exit(FAIL);
 		}
 		exit(SUCCESS);
 	}
@@ -71,11 +66,14 @@ t_bool fork_error_catch(pid_t pid)
 
 void run_commands(t_info *info, t_command *cmd, int *cnt)
 {
-	int	i;
-
-	i = 0;
 	while (cmd != NULL)
 	{
+		if (cmd->builtin_type != NOTBUILTIN)
+		{
+			ft_builtins(cmd, info);
+			cmd = cmd->next;
+			continue ;
+		}
 		if (cmd->next != NULL)
 		{
 			if (pipe(cmd->curr_pipe_fd) == -1)
