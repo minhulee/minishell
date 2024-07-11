@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:33:47 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/09 16:03:00 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/11 15:45:01 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,9 @@ void	builtins_exit(t_command *cmd);
 
 // ft_builtins_unset.c
 void	builtins_unset(t_command *cmd, t_info *info);
+char	**unset_dup_envp(t_list *env_lst);
+
+// ft_builtins_export.c
+void	builtins_export(t_command *cmd, t_info *info);
 
 #endif
