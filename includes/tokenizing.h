@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 16:51:45 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 13:14:00 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ t_status	append_operator(t_token_type type, char **line
 
 // tokenizer_strtok.c
 t_token	*ft_strtok(char *line);
+
+// tokenizer_strtok_utils.c
+char	*tokenize_str(char **line);
+char	*tokenize_quote_str(char **line);
 
 // tokenizer_lst.c
 t_token	*token_lst_new(char *value, t_token_type type);

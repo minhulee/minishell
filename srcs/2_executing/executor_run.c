@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 00:09:27 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 12:55:41 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@ static void child_process(t_command *cmd, t_info *info)
 		err_printf(cmd->cmd);
 		exit(FAIL);
 	}
-	else 
+	else
 	{
-		if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
+		if (cmd->builtin_type != NOTBUILTIN)
+		{
+			ft_builtins(cmd, info);
+			exit(SUCCESS);
+		}
+		else if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
 		{
 			perror("execve() error\n");
 			exit(FAIL);
@@ -64,16 +69,11 @@ t_bool fork_error_catch(pid_t pid)
 	return (FALSE);
 }
 
+// qkhdsk | qkjsdhkqshd | builtins | 
 void run_commands(t_info *info, t_command *cmd, int *cnt)
 {
 	while (cmd != NULL)
 	{
-		if (cmd->builtin_type != NOTBUILTIN)
-		{
-			ft_builtins(cmd, info);
-			cmd = cmd->next;
-			continue ;
-		}
 		if (cmd->next != NULL)
 		{
 			if (pipe(cmd->curr_pipe_fd) == -1)

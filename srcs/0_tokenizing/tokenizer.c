@@ -6,14 +6,16 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 22:51:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 13:13:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // a<b b| 연산자가 붙어있을때
-// infile outfile 리스트로!~
+// 무조건 연산자를 기준으로 자르기~
+// a"abc" -> aabc || a | abc
+// export a="abc"d -> a= | abc | d
 
 t_token	*ft_tokenize(char *line)
 {

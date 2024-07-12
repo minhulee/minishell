@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:07:36 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/11 12:04:31 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 13:05:40 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_status	init_envp(t_info *info, char **envp)
 	char	*content;
 	t_list	*new;
 
+	ft_memset(info, 0, sizeof(*info));
 	info->og_envp = envp;
 	info->dup_envp = init_dup_envp(envp);
 	if (info->dup_envp == NULL)

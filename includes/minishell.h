@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/10 15:14:49 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 13:16:14 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 typedef struct	s_info
 {
-	// int			here_doc_cnt; -- 
+	int			here_doc_cnt; 
 	char		*line;
 	char		**og_envp;
 	char		**dup_envp;

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:13:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/26 22:52:02 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 13:13:28 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,31 @@ static t_status	tokenize_operator(char **line, t_token **token_lst)
 
 static t_status	tokenize_identifier(char **line, t_token **token_lst)
 {
-	char	*tmp;
-	char	*value;
 	t_token	*new;
-	int		i;
+	char	*tmp;
+	char	*content;
 
-	i = -1;
-	tmp = *line;
-	while (tmp[++i] != '\0')
+	content = NULL;
+	while (**line != '\0'|| ft_isspace(**line) || ft_isoperator(**line))
 	{
-		if (ft_isspace(tmp[i]) == TRUE || ft_isquote(tmp[i]) == TRUE
-			|| ft_isoperator(tmp[i]) == TRUE)
+		if (ft_isspace(**line) || ft_isoperator(**line))
 			break ;
+		if (**line == '"' || **line == '\'')
+			tmp = tokenize_quote_str(line);
+		else
+			tmp = tokenize_str(line);
+		if (content != NULL)
+			content = ft_strjoin(content, tmp);
+		else
+			content = tmp;
 	}
-	value = ft_substr(tmp, 0, i);
-	if (value == NULL)
-		return (FAIL);
-	new = token_lst_new(value, ARGUMENT);
+	new = token_lst_new(content, ARGUMENT);
 	if (new == NULL)
 	{
-		free(value);
+		free(content);
 		return (FAIL);
 	}
 	token_lst_add_back(token_lst, new);
-	(*line) += i;
 	return (SUCCESS);
 }
 
@@ -60,31 +61,35 @@ static t_status	tokenize_identifier(char **line, t_token **token_lst)
 // \"hello world\"\0 | -> 커서를 hello world 뒤로
 static t_status	tokenize_quote(char **line, t_token **token_lst)
 {
-	int		i;
 	char	*tmp;
-	char	*ptr;
-	char	*value;
+	char	*content;
 	t_token	*new;
 
-	tmp = *line;
-	// seper = (*line)[0] -> ' || "
-	ptr = ft_strchr(*line + 1, *tmp);
-	value = ft_substr(tmp, 1, (size_t)(ptr - tmp - 1));
-	if (value == NULL)
-		return (FAIL);
-	new = token_lst_new(value, ARGUMENT);
+	content = NULL;
+	while (**line != '\0')
+	{
+		if (ft_isspace(**line) || ft_isoperator(**line))
+			break ;
+		if (**line == '"' || **line == '\'')
+			tmp = tokenize_quote_str(line);
+		else
+			tmp = tokenize_str(line);
+		if (content != NULL)
+			content = ft_strjoin(content, tmp);
+		else
+			content = tmp;
+	}
+	new = token_lst_new(content, ARGUMENT);
 	if (new == NULL)
 	{
-		free(value);
+		free(content);
 		return (FAIL);
 	}
 	token_lst_add_back(token_lst, new);
-	*line += (ptr - tmp + 1);
 	return (SUCCESS);
 }
 
-// quotes error
-// 1. split -> whitespace, 따옴표 안에, >, <, <<
+// 무조건 연산자와 공백을 기준으로 자르기.
 t_token	*ft_strtok(char *line)
 {
 	t_status	flag;
