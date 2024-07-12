@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:16:14 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:06:52 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 # include "./tokenizing.h"
 # include "./parsing.h"
 
-typedef struct	s_info
+typedef struct	s_info // -> 미니쉘에 대한 정보, 쉘 속의 쉘
 {
-	int			here_doc_cnt; 
+	int			total_heredoc_cnt;
 	char		*line;
 	char		**og_envp;
 	char		**dup_envp;
@@ -40,7 +40,6 @@ typedef struct	s_info
 
 # include "./executing.h"
 # include "./builtins.h"
-
 // 4_envp/init_envp.c
 t_status	init_envp(t_info *info, char **envp);
 

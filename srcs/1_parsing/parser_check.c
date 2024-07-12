@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:05:14 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/06 16:29:14 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:11:04 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_builtin(t_command *cmd)
 {
-	while (cmd != NULL)
+	while (cmd != NULL && cmd->cmd != NULL)
 	{
 		if (ft_strncmp(cmd->cmd, "cd", 3) == 0)
 			cmd->builtin_type = CD;

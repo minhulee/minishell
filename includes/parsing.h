@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/10 15:27:52 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:06:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct	s_command
 }	t_command;
 
 // parser.c
-t_command	*ft_parse(t_token *token);
+t_command	*ft_parse(t_token *token, int *heredoc_cnt);
 
 // parser_utils.c
 int			cnt_pipe(t_token *token);
@@ -71,7 +71,7 @@ void		check_builtin(t_command *cmd);
 // parser_init.c
 t_status	init_arg(t_command **cmd_lst, t_token *token, int cnt);
 t_status	init_cmd_arg(t_command **cmd_lst, t_token *token);
-t_status	init_operator(t_command **cmd_lst, t_token *token);
+t_status	init_operator(t_command **cmd_lst, t_token *token, int *heredoc_cnt);
 
 // parser_lst.c
 t_command	*cmd_lst_new(char *cmd);

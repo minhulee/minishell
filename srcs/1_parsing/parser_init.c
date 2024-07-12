@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/05 17:56:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:07:43 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_status	init_redirect(t_command **tmp, t_token *token)
 	return (SUCCESS);
 }
 
-t_status	init_operator(t_command **cmd_lst, t_token *token)
+t_status	init_operator(t_command **cmd_lst, t_token *token, int *heredoc_cnt)
 {
 	t_command	*tmp;
 	t_file		*new;
@@ -96,7 +96,10 @@ t_status	init_operator(t_command **cmd_lst, t_token *token)
 				return (FAIL);
 		}
 		if (token->type == HEREDOC)
+		{
 			(tmp->heredoc_cnt)++;
+			(*heredoc_cnt)++;
+		}
 		token = token->next;
 	}
 	return (SUCCESS);

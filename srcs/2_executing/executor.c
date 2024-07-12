@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 12:53:00 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 15:07:14 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ int		wait_children(int ps_cnt, pid_t last_pid)
 	return (exit_status);	
 }
 
+void	process_heredoc(t_info *info, t_command *cmd)
+{
+	
+	while (info->total_heredoc_cnt != 0 || cmd != NULL)
+	{
+		if (cmd->heredoc_cnt != 0)
+		{
+			
+			(cmd->heredoc_cnt)--;
+			(info->total_heredoc_cnt)--;
+		}
+		cmd = cmd->next;
+	}
+}
+
 t_status	ft_execute(t_info *info)
 {
 	char		**split_path;
@@ -44,6 +59,7 @@ t_status	ft_execute(t_info *info)
 	int			exit_status;
 	int			ps_cnt;
 
+	process_heredoc(info, info->cmd);
 	if (info->cmd->next == NULL && info->cmd->builtin_type != NOTBUILTIN)
 		ft_builtins(info->cmd, info); // 단일 cmd + builtin
 	else

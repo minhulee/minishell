@@ -6,12 +6,12 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:15:30 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:07:18 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-// cmd [args...] | cmd [args...] -> 파이프 개수 + 1
+
 static t_command	*prepare_cmd_lst(t_token *token, int num_pipe)
 {
 	int			i;
@@ -40,7 +40,7 @@ static t_command	*prepare_cmd_lst(t_token *token, int num_pipe)
 	return (cmd_lst);
 }
 
-t_command	*ft_parse(t_token *token)
+t_command	*ft_parse(t_token *token, int *heredoc_cnt)
 {
 	t_command	*cmd_lst;
 
@@ -57,7 +57,7 @@ t_command	*ft_parse(t_token *token)
 	}
 	if (init_cmd_arg(&cmd_lst, token) == FAIL)
 		return (NULL);
-	if (init_operator(&cmd_lst, token) == FAIL)
+	if (init_operator(&cmd_lst, token, heredoc_cnt) == FAIL)
 	{
 		token_lst_clear(&token);
 		file_lst_clear(&(cmd_lst->file_lst));

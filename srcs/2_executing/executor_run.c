@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 12:55:41 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/12 14:09:15 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void child_process(t_command *cmd, t_info *info)
 		}
 		exit(SUCCESS);
 	}
-	// 썻던 fd 닫아야함.
 }
 
 static void	parent_process(t_command *cmd, int *pipe_fd
