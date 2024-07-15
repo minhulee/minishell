@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:35:37 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/06 13:44:22 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/15 15:36:48 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,14 @@ void	set_redirect_fd(t_command *cmd)
 	t_file	*file;
 
 	file = cmd->file_lst;
-	while (file)
+	while (file != NULL)
 	{
-		if (file->type == INPUT_REDIRECT)
+		if (file->type == INPUT_REDIRECT || file->type == HEREDOC)
 			set_redirect_in(cmd, file);
 		else if (file->type == OUTPUT_REDIRECT)
 			set_redirect_out(cmd, file);
 		else if (file->type == APPEND_O_REDIRECT)
 			set_redirect_app_out(cmd, file);
-		// heredoc 파일 만들어서 해야함.
 		file = file->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 14:12:01 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 00:20:41 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		info.cmd = ft_parse(info.token, &(info.total_heredoc_cnt));
 		if (info.cmd == NULL)
 			continue ;
-		// heredoc 을 infile로 치환한다.
-		// 이때 각 heredoc은 파이프에 따라 구분된다. <- heredoc으로 입력된 입력이 pipe를 지원을 안해.
-		// << a << b << c | << d << e << f
-		// < tmp0 <tmp0 <tmp0 | <tmp1 <tmp1 <tmp1
 		ft_execute(&info);
-		// cmd_lst_printf(info.cmd);
 	}
 	exit(SUCCESS);
 }

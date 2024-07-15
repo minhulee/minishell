@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:19:39 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/11 15:17:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/15 15:43:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 // cd, env, pwd, echo 완료
 void	ft_builtins(t_command *cmd, t_info *info)
 {
+	set_redirect_fd(cmd);
+	if (cmd->infile_fd != NONE)
+	{
+		dup2(cmd->infile_fd, STDIN_FILENO);
+		close(cmd->infile_fd);
+	}
+	if (cmd->outfile_fd != NONE)
+	{
+		dup2(cmd->outfile_fd, STDOUT_FILENO);
+		close(cmd->outfile_fd);
+	}
 	if (cmd->builtin_type == CD)
 		builtins_cd(cmd);
 	else if (cmd->builtin_type == ENV)

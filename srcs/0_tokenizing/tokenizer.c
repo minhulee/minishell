@@ -6,17 +6,13 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:51:05 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 00:21:15 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// a<b b| 연산자가 붙어있을때
-// 무조건 연산자를 기준으로 자르기~
-// a"abc" -> aabc || a | abc
-// export a="abc"d -> a= | abc | d
-
+// line -> token 왠만하면 새로 duplicate
 t_token	*ft_tokenize(char *line)
 {
 	t_token	*token_lst;

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 14:09:15 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 00:18:43 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 static void child_process(t_command *cmd, t_info *info)
 {
 	set_fd(cmd, info);
-	if (cmd->cmd == NULL) // 명령어가 NULL 일때
-		exit(SUCCESS);
+	if (cmd->cmd == NULL || cmd->cmd_path == NULL)
+		exit(FAIL);
 	if (cmd->cmd_path == NULL && cmd->cmd != NULL) // 적절한 명령어가 아닐때
 	{
 		err_printf(cmd->cmd);
@@ -39,22 +39,17 @@ static void child_process(t_command *cmd, t_info *info)
 	}
 }
 
-static void	parent_process(t_command *cmd, int *pipe_fd
-	, int *prev_pipe_fd)
+// 파이프 -> 포크 -> 자식 / 부모 행동.
+// a | b | c | d
+static void	parent_process(t_command *cmd)
 {
+	// prev_pipe_fd 는 첫번째 자식 이후를 위한 행동.
 	if (cmd->next != NULL)
 	{
-		close(pipe_fd[1]);
-		prev_pipe_fd[0] = pipe_fd[0];
-		prev_pipe_fd[1] = pipe_fd[1];
-	}
-	else
-	{
-		if (prev_pipe_fd[0] != -1)
-		{
-			close(prev_pipe_fd[0]);
-			close(prev_pipe_fd[1]);
-		}
+		cmd->prev_pipe_fd[0] = cmd->curr_pipe_fd[0];
+		cmd->prev_pipe_fd[1] = cmd->curr_pipe_fd[1];
+		close(cmd->curr_pipe_fd[0]);
+		close(cmd->curr_pipe_fd[1]);
 	}
 }
 
@@ -73,18 +68,15 @@ void run_commands(t_info *info, t_command *cmd, int *cnt)
 {
 	while (cmd != NULL)
 	{
-		if (cmd->next != NULL)
-		{
-			if (pipe(cmd->curr_pipe_fd) == -1)
-				return (perror("pipe() error\n")); 
-		}
+		if (cmd->next != NULL) // 마지막 노드는 파이프 안만듬.
+			pipe(cmd->curr_pipe_fd);
 		info->pid = fork();
 		if(fork_error_catch(info->pid))
 			return ;
 		else if (info->pid == 0)
 			child_process(cmd, info);
 		else
-			parent_process(cmd, cmd->curr_pipe_fd, cmd->prev_pipe_fd);
+			parent_process(cmd);
 		cmd = cmd->next;
 		(*cnt)++;
 	}

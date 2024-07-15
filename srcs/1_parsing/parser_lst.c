@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/06 16:32:42 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:07:00 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_command	*cmd_lst_new(char *cmd)
 	new->cmd = cmd;
 	new->prev_pipe_fd[0] = NONE;
 	new->prev_pipe_fd[1] = NONE;
+	new->curr_pipe_fd[0] = NONE;
+	new->curr_pipe_fd[1] = NONE;
 	new->infile_fd = NONE;
 	new->outfile_fd = NONE;
 	return (new);
@@ -79,7 +81,7 @@ void	cmd_lst_printf(t_command *cmd_lst)
 		printf("cmd : %s\n", cmd_lst->cmd);
 		printf("cmd_path : %s\n", cmd_lst->cmd_path);
 		i = 0;
-		while ((cmd_lst->args)[i] != NULL)
+		while (cmd_lst->args != NULL && (cmd_lst->args)[i] != NULL)
 		{
 			printf("args[%d]: %s\n", i, cmd_lst->args[i]);
 			i++;
@@ -88,7 +90,11 @@ void	cmd_lst_printf(t_command *cmd_lst)
 		while (tmp != NULL)
 		{
 			if (tmp->type == HEREDOC)
+			{
 				printf("heredoc : %s\n", tmp->delimit);
+				if (tmp->file_name != NULL)
+					printf("file_name : %s\n", tmp->file_name);
+			}
 			else
 				printf("input_file : %s\n", tmp->file_name);
 			tmp = tmp->next;

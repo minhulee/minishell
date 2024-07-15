@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewoolee <jewoolee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2023/10/27 16:55:33 by jewoolee         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:31:46 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+
+# include "./get_next_line.h"
 
 typedef struct s_list
 {

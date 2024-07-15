@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 14:07:43 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 00:12:10 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ t_status	init_arg(t_command **cmd_lst, t_token *token, int cnt)
 {
 	int	i;
 
-	(*cmd_lst)->args = (char **)ft_calloc(cnt + 2, sizeof(char *));
+	if (cnt == 0)
+	{
+		(*cmd_lst)->args = NULL;
+		return (SUCCESS);
+	}
+	(*cmd_lst)->args = (char **)ft_calloc(cnt + 1, sizeof(char *));
 	if ((*cmd_lst)->args == NULL)
 		return (FAIL);
 	i = 0;
-	while (i < cnt + 1 && token != NULL)
+	while (i < cnt && token != NULL)
 	{
 		if (token->type == COMMAND || token->type == ARGUMENT)
 		{
@@ -47,6 +52,7 @@ t_status	init_cmd_arg(t_command **cmd_lst, t_token *token)
 		{
 			curr = token;
 			tmp->cmd = token->value;
+			cnt++;
 		}
 		if (token->type == ARGUMENT)
 			cnt++;
@@ -79,10 +85,8 @@ t_status	init_redirect(t_command **tmp, t_token *token)
 t_status	init_operator(t_command **cmd_lst, t_token *token, int *heredoc_cnt)
 {
 	t_command	*tmp;
-	t_file		*new;
 
 	tmp = *cmd_lst;
-	new = NULL;
 	while (token != NULL)
 	{
 		if (token->type == PIPE)

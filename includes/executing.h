@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:44 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/06 15:51:12 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:48:28 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./basic.h"
 
+# define TEMPFILE "/tmp/heredoc_"
 # define NONE -1
 
 // executor.c
