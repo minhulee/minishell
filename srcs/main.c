@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 00:20:41 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:04:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 		if (info.cmd == NULL)
 			continue ;
 		ft_execute(&info);
+		// 진행 후 cmd와 f_lst할당 해제 필요.
 	}
 	exit(SUCCESS);
 }

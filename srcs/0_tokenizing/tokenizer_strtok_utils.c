@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:13:46 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 12:45:51 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:51:01 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*tokenize_quote_str(char **line)
 	ptr = ft_strchr(*line + 1, *tmp);
 	value = ft_substr(tmp, 1, (size_t)(ptr - tmp - 1));
 	if (value == NULL)
-		return (NULL);
+		exit(FAIL);
 	*line += (ptr - tmp + 1);
 	return (value);
 }
@@ -42,6 +42,6 @@ char	*tokenize_str(char **line)
 	}
 	value = ft_substr(tmp, 0, *line - tmp);
 	if (value == NULL)
-		return (NULL);
+		exit(FAIL);
 	return (value);
 }

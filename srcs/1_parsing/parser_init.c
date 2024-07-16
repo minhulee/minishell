@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 00:15:16 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 00:12:10 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:09:20 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ t_status	init_arg(t_command **cmd_lst, t_token *token, int cnt)
 	}
 	(*cmd_lst)->args = (char **)ft_calloc(cnt + 1, sizeof(char *));
 	if ((*cmd_lst)->args == NULL)
-		return (FAIL);
+		exit(FAIL);
 	i = 0;
 	while (i < cnt && token != NULL)
 	{
 		if (token->type == COMMAND || token->type == ARGUMENT)
 		{
-			(*cmd_lst)->args[i] = token->value;
+			(*cmd_lst)->args[i] = ft_strdup(token->value);
+			if ((*cmd_lst)->args[i] == NULL)
+				exit(FAIL);
 			i++;
 		}
 		token = token->next;
@@ -51,7 +53,9 @@ t_status	init_cmd_arg(t_command **cmd_lst, t_token *token)
 		if (token->type == COMMAND)
 		{
 			curr = token;
-			tmp->cmd = token->value;
+			tmp->cmd = ft_strdup(token->value);
+			if (tmp->cmd == NULL)
+				exit(FAIL);
 			cnt++;
 		}
 		if (token->type == ARGUMENT)
@@ -72,9 +76,9 @@ t_status	init_redirect(t_command **tmp, t_token *token)
 {
 	t_file	*new;
 
-	new = file_lst_new(token->type, token->next->value);
+	new = file_lst_new(token->type, ft_strdup(token->next->value));
 	if (new == NULL)
-		return (FAIL);
+		exit(FAIL);
 	if (token->type == INPUT_REDIRECT || token->type == HEREDOC
 		|| token->type == APPEND_O_REDIRECT
 		|| token->type == OUTPUT_REDIRECT)

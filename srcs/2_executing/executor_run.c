@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 00:18:43 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:24:56 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void child_process(t_command *cmd, t_info *info)
 		if (cmd->builtin_type != NOTBUILTIN)
 		{
 			ft_builtins(cmd, info);
-			exit(SUCCESS);
 		}
 		else if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
 		{

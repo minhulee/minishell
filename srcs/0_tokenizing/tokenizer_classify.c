@@ -6,16 +6,12 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:00:37 by jewlee            #+#    #+#             */
-/*   Updated: 2024/06/22 15:57:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:52:39 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// | cmd
-// < > >> file_name, << eof
-// cmd [args..] | cmd [args..] 
-// << eof cmd, cmd << eof
 void	classify_identifier(t_token *token)
 {
 	while (token != NULL)

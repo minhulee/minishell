@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/06 14:16:00 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:22:32 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*find_path(char **envp)
 		if (ft_strncmp("PATH=", envp[i], 5) == 0)
 		{
 			ret_path = ft_strdup(envp[i] + 5);
+			if (ret_path == NULL)
+				exit(FAIL);
 			return (ret_path);
 		}
 		i++;
@@ -41,10 +43,14 @@ char	*get_cmd_path(char **path, char *cmd)
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
 	path_cmd = ft_strjoin("/", cmd);
+	if (path_cmd == NULL)
+		exit(FAIL);
 	i = -1;
 	while (path[++i] != NULL)
 	{
 		tmp = ft_strjoin(path[i], path_cmd);
+		if (tmp == NULL)
+			exit(FAIL);
 		if (access(tmp, X_OK) == 0)
 		{
 			free(path_cmd);

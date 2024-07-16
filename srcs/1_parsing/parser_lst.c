@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 17:07:00 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:27:38 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	cmd_lst_clear(t_command **lst)
 {
 	t_command	*curr;
 	t_command	*tmp;
+	int			i;
 
 	if (lst == NULL)
 		return ;
@@ -65,6 +66,16 @@ void	cmd_lst_clear(t_command **lst)
 	while (curr != NULL)
 	{
 		tmp = curr->next;
+		if (curr->cmd != NULL)
+			free(curr->cmd);
+		if (curr->cmd_path != NULL)
+			free(curr->cmd_path);
+		if (curr->args != NULL)
+		{
+			i = -1;
+			while (curr->args[++i] != NULL)
+				free(curr->args[i]);
+		}
 		free(curr);
 		curr = tmp;
 	}

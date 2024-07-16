@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 23:57:50 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 16:09:33 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:08:10 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_file	*file_lst_new(t_token_type type, char *content)
 {
 	t_file	*new;
 
+	if (content == NULL)
+		return (NULL);// ft_strdup 널가드
 	new = ft_calloc(1, sizeof(t_file));
 	if (new == NULL)
 		return (NULL);
@@ -52,6 +54,10 @@ void	file_lst_clear(t_file **lst)
 	curr = *lst;
 	while (curr != NULL)
 	{
+		if (curr->file_name != NULL)
+			free(curr->file_name);
+		if (curr->delimit != NULL)
+			free(curr->delimit);
 		tmp = curr->next;
 		free(curr);
 		curr = tmp;

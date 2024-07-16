@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 16:50:43 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:08:44 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,12 @@ static t_command	*prepare_cmd_lst(t_token *token, int num_pipe)
 	{
 		new = cmd_lst_new(NULL);
 		if (new == NULL)
-		{
-			cmd_lst_clear(&cmd_lst);
-			return (NULL);
-		}
+			exit(FAIL);
 		cmd_lst_add_back(&cmd_lst, new);
 	}
 	new = cmd_lst_new(NULL);
 	if (new == NULL)
-	{
-		cmd_lst_clear(&cmd_lst);
-		return (NULL);
-	}
+		exit(FAIL);
 	cmd_lst_add_back(&cmd_lst, new);
 	return (cmd_lst);
 }
@@ -65,5 +59,6 @@ t_command	*ft_parse(t_token *token, int *heredoc_cnt)
 		return (NULL);
 	}
 	check_builtin(cmd_lst);
+	token_lst_clear(&token);// cmd 생성 완료후 token 할당 해제.
 	return (cmd_lst);
 }

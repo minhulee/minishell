@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 00:07:33 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 12:23:10 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	process_heredoc(t_info *info, t_command *cmd)
 				tmp_i = ft_itoa(i);
 				tmp = ft_strjoin(TEMPFILE, tmp_i);
 				free(tmp_i);
-				fd = open(tmp, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+				fd = open(tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				delimiter = f_lst->delimit;
 				while (TRUE)
 				{
@@ -80,6 +80,31 @@ void	process_heredoc(t_info *info, t_command *cmd)
 	}
 }
 
+void	delete_heredoc(t_command *cmd)
+{
+	t_file	*file;
+
+	while (cmd != NULL)
+	{
+		file = cmd->file_lst;
+		while (file != NULL)
+		{
+			if (file->type == HEREDOC)
+			{
+				if (access(file->file_name, F_OK) == 0)
+					unlink(file->file_name);
+				if (file->file_name != NULL)
+				{
+					free(file->file_name);
+					file->file_name = NULL;
+				}
+			}
+			file = file->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
 // heredoc 실행 완료 후 지우기.
 t_status	ft_execute(t_info *info)
 {
@@ -100,5 +125,8 @@ t_status	ft_execute(t_info *info)
 		run_commands(info, info->cmd, &ps_cnt);
 		exit_status = wait_children(ps_cnt, info->pid);
 	}
+	delete_heredoc(info->cmd);
+	file_lst_clear(&(info->cmd->file_lst));
+	cmd_lst_clear(&(info->cmd));
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:35:37 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 15:36:48 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:38:59 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	set_redirect_in(t_command *cmd, t_file *file)
 {
 	if (cmd->infile_fd != NONE)
 		close(cmd->infile_fd);
-	cmd->infile_fd = open(file->file_name, O_RDONLY);
+	cmd->infile_fd = open(file->file_name, O_RDONLY, 0644);
 	if (cmd->infile_fd < 0)
 	{
 		write(STDERR_FILENO, "No such file or directory\n", 27);
@@ -28,14 +28,14 @@ static void	set_redirect_out(t_command *cmd, t_file *file)
 {
 	if (cmd->outfile_fd != NONE)
 		close(cmd->outfile_fd);
-	cmd->outfile_fd = open(file->file_name, O_WRONLY | O_CREAT | O_TRUNC);
+	cmd->outfile_fd = open(file->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 }
 
 static void	set_redirect_app_out(t_command *cmd, t_file *file)
 {
 	if (cmd->outfile_fd != NONE)
 		close(cmd->outfile_fd);
-	cmd->outfile_fd = open(file->file_name, O_WRONLY | O_CREAT | O_APPEND);
+	cmd->outfile_fd = open(file->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
 void	set_redirect_fd(t_command *cmd)

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 12:25:09 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:52:04 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	token_lst_clear(t_token **lst)
 	curr = *lst;
 	while (curr)
 	{
-		free(curr->value);
+		if (curr->value != NULL)
+			free(curr->value);
 		tmp = curr->next;
 		free(curr);
 		curr = tmp;

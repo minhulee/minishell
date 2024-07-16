@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:13:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:13:28 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:50:09 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,18 @@ static t_status	tokenize_identifier(char **line, t_token **token_lst)
 		else
 			tmp = tokenize_str(line);
 		if (content != NULL)
+		{
 			content = ft_strjoin(content, tmp);
+			if (content == NULL)
+				exit(FAIL);
+			free(tmp);
+		}
 		else
 			content = tmp;
 	}
 	new = token_lst_new(content, ARGUMENT);
 	if (new == NULL)
-	{
-		free(content);
-		return (FAIL);
-	}
+		exit(FAIL);
 	token_lst_add_back(token_lst, new);
 	return (SUCCESS);
 }
@@ -75,21 +77,22 @@ static t_status	tokenize_quote(char **line, t_token **token_lst)
 		else
 			tmp = tokenize_str(line);
 		if (content != NULL)
+		{
 			content = ft_strjoin(content, tmp);
+			if (content == NULL)
+				exit(FAIL);
+			free(tmp);
+		}
 		else
 			content = tmp;
 	}
 	new = token_lst_new(content, ARGUMENT);
 	if (new == NULL)
-	{
-		free(content);
-		return (FAIL);
-	}
+		exit(FAIL);
 	token_lst_add_back(token_lst, new);
 	return (SUCCESS);
 }
 
-// 무조건 연산자와 공백을 기준으로 자르기.
 t_token	*ft_strtok(char *line)
 {
 	t_status	flag;
