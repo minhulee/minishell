@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:30:15 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 15:25:28 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 02:53:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ static void	set_pipe_fd(t_command *cmd)
 	}
 }
 
-void	set_fd(t_command *cmd, t_info *info)
+void	set_file_fd(t_command *cmd)
 {
-	set_pipe_fd(cmd);
-	set_redirect_fd(cmd);
 	if (cmd->infile_fd != NONE)
 	{
 		dup2(cmd->infile_fd, STDIN_FILENO);
@@ -46,4 +44,11 @@ void	set_fd(t_command *cmd, t_info *info)
 		dup2(cmd->outfile_fd, STDOUT_FILENO);
 		close(cmd->outfile_fd);
 	}
+}
+
+void	set_fd(t_command *cmd, t_info *info)
+{
+	set_pipe_fd(cmd);
+	set_redirect_fd(cmd);
+	set_file_fd(cmd);
 }

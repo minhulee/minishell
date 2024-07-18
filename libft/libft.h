@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/14 19:31:46 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/16 23:19:23 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strncpy(char *dst, char *src, int len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);

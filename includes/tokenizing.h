@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:14:00 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 02:27:41 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,23 @@ typedef struct	s_token
 }	t_token;
 
 // tokenizer.c
-t_token			*ft_tokenize(char *line);
+t_token			*ft_tokenize(char *line, char **envp);
 
 // tokenizer_append.c
 t_status	append_operator(t_token_type type, char **line
 	, t_token **token_lst);
 
 // tokenizer_strtok.c
-t_token	*ft_strtok(char *line);
+t_token	*ft_strtok(char *line, char **envp);
 
 // tokenizer_strtok_utils.c
-char	*tokenize_str(char **line);
-char	*tokenize_quote_str(char **line);
+char	*get_env_value(char *name, char **envp);
+
+// tokenizer_str.c
+char	*tokenize_str(char **line, char **envp);
+
+// tokenizer_quote.c
+char	*tokenize_quote(char **line, char **envp);
 
 // tokenizer_lst.c
 t_token	*token_lst_new(char *value, t_token_type type);
