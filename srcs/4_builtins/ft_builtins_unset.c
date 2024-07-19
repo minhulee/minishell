@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 18:07:39 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 00:21:41 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	builtins_unset(t_command *cmd, t_info *info)
 			free(info->dup_envp[i]);
 		free(info->dup_envp);
 		info->dup_envp = unset_dup_envp(info->env_lst);
-		if (info->dup_envp == NULL) // all free 필요.
-			return ;
+		if (info->dup_envp == NULL)
+			exit(FAIL);
 	}
 	return ;
 }

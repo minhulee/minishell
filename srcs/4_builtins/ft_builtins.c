@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:19:39 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 02:48:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:59:35 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_builtins(t_command *cmd, t_info *info)
 		builtins_env(info);
 	else if (cmd->builtin_type == PWD)
 		builtins_pwd(cmd);
-	else if (cmd->builtin_type == ECHO)
+	else if (cmd->builtin_type == ECHO_)
 		builtins_echo(cmd);
 	else if (cmd->builtin_type == EXIT)
 		builtins_exit(cmd);

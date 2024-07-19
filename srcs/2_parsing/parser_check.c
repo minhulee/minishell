@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:05:14 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 14:11:04 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:58:59 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_builtin(t_command *cmd)
 		if (ft_strncmp(cmd->cmd, "cd", 3) == 0)
 			cmd->builtin_type = CD;
 		else if (ft_strncmp(cmd->cmd, "echo", 5) == 0)
-			cmd->builtin_type = ECHO;
+			cmd->builtin_type = ECHO_;
 		else if (ft_strncmp(cmd->cmd, "export", 7) == 0)
 			cmd->builtin_type = EXPORT;
 		else if (ft_strncmp(cmd->cmd, "exit", 5) == 0)

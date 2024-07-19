@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:19:35 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:55 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 00:32:21 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,6 @@ static t_bool	env_is_existed(char	*arg, char **envp, char *ptr)
 	}
 	return (FALSE);
 }
-
-// static t_bool	is_valid_value(char *args, char *ptr)
-// {
-// 	// 긁으면서 지나가다가. 따옴표나오면 따옴표 로직 출발.
-// 	while (*ptr != '\0')
-// 	{
-		
-// 		ptr++;
-// 	}
-// }
 
 static void	args_is_string(t_command *cmd, t_info *info, int i, char *ptr)
 {

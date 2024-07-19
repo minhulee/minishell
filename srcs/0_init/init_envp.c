@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 13:07:36 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 13:53:04 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/20 00:00:07 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/20 00:01:14 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 static size_t	count_str(char **s)
 {
@@ -54,7 +55,6 @@ t_status	init_envp(t_info *info, char **envp)
 	char	*content;
 	t_list	*new;
 
-	ft_memset(info, 0, sizeof(*info));
 	info->og_envp = envp;
 	info->dup_envp = init_dup_envp(envp);
 	if (info->dup_envp == NULL)

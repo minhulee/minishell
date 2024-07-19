@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/19 01:09:20 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:58:34 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum	e_built_type
 	CD,
 	PWD,
 	ENV,
-	ECHO,
+	ECHO_,
 	EXIT,
 	UNSET,
 	EXPORT,
