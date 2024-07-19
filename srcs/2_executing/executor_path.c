@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 12:22:32 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 00:13:53 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,43 @@ char	*find_path(char **envp)
 	return (NULL);
 }
 
-char	*get_cmd_path(char **path, char *cmd)
+static char	*get_cmd_path(char **path, char *path_cmd)
+{
+	int		i;
+	char	*find;
+
+	i = -1;
+	while (path[++i] != NULL)
+	{
+		find = ft_strjoin(path[i], path_cmd);
+		if (find == NULL)
+			exit(FAIL);
+		if (access(find, X_OK) == 0)
+		{
+			free(path_cmd);
+			return (find);
+		}
+		free(find);
+	}
+	free(path_cmd);
+	return (NULL);
+}
+
+static char	*find_cmd_path(char **path, char *cmd)
 {
 	int		i;
 	char	*path_cmd;
-	char	*tmp;
+	char	*find;
 
 	if (cmd == NULL)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	path_cmd = ft_strjoin("/", cmd);
 	if (path_cmd == NULL)
 		exit(FAIL);
-	i = -1;
-	while (path[++i] != NULL)
-	{
-		tmp = ft_strjoin(path[i], path_cmd);
-		if (tmp == NULL)
-			exit(FAIL);
-		if (access(tmp, X_OK) == 0)
-		{
-			free(path_cmd);
-			return (tmp);
-		}
-		free(tmp);
-	}
-	free(path_cmd);
-	return (NULL);
+	find = get_cmd_path(path, path_cmd);
+	return (find);
 }
 
 void	get_path(char **path, t_command **cmd)
@@ -69,7 +78,7 @@ void	get_path(char **path, t_command **cmd)
 	tmp = *cmd;
 	while (tmp != NULL)
 	{
-		tmp->cmd_path = get_cmd_path(path, tmp->cmd);
+		tmp->cmd_path = find_cmd_path(path, tmp->cmd);
 		tmp = tmp->next;
 	}
 }

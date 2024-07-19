@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 13:05:55 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 01:16:46 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		wait_children(int ps_cnt, pid_t last_pid)
 	return (exit_status);	
 }
 
-// heredoc 실행 완료 후 지우기.
 t_status	ft_execute(t_info *info)
 {
 	char		**split_path;
@@ -58,6 +57,7 @@ t_status	ft_execute(t_info *info)
 		exit_status = wait_children(ps_cnt, info->pid);
 	}
 	delete_heredoc(info->cmd);
+	restore_std_fd(info->cmd);
 	file_lst_clear(&(info->cmd->file_lst));
 	cmd_lst_clear(&(info->cmd));
 	return (SUCCESS);

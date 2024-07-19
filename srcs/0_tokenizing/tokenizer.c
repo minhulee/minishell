@@ -6,51 +6,11 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 15:47:06 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 23:53:28 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// char	*tok_substr(char *line, int c)
-// {
-// 	char	*ptr;
-// 	char	*result;
-// 	int		size;
-	
-// 	ptr = ft_strchr((*line) + 1, c);
-// 	size = ptr - (*line) + 1;
-// 	result = ft_calloc(size + 1, sizeof(char));
-// 	if (result == NULL)
-// 		exit(FAIL);
-// 	result = ft_strncpy(result, (*line), size);
-// 	*line += size;
-// 	return (result);
-// }
-
-// aaaa$a aaaa "$a " '$a ' "aa'$a' " 'aaa"$a"aaa'
-// aaaab aaaa "b "   '$a ' ptr
-// char	*substitute_env(char *line, char **envp)
-// {
-// 	int		ptr;
-// 	char	*single_quote;
-// 	char	*var_value;
-// 	char	*value;
-
-// 	ptr = 0;
-// 	while (*line)
-// 	{
-// 		if (*line == '\'')
-// 			single_quote = tok_substr(&line, '\'');
-// 		else
-// 		{
-// 			if (*line == '$')
-// 				var_value = 
-// 			else if (!ft_strchr(*line, '$') && !ft_strchr(*line, '\''))
-// 				value = tok_substr(&line, '\0');
-// 		}
-// 	}
-// }
 
 char	*is_exist_env(char *line, char**envp, int *ptr)
 {
@@ -58,18 +18,19 @@ char	*is_exist_env(char *line, char**envp, int *ptr)
 	char	*res;
 	int		i;
 
-	printf("%d\n", *ptr);
 	res = NULL;
-	i = 0;
-	while (line[*ptr + i] != '\'' && line[*ptr + i] != '\"' && line[*ptr + i])
+	i = 1;
+	while (!(line[*ptr + i] == '\'' || line[*ptr + i] == '\"' || line[*ptr + i] == '$' || line[*ptr + i] == ' ') && line[*ptr + i])
 		i++;
+	name = ft_substr(line, *ptr + 1, i - 1);
 	*ptr += i;
-	name = ft_substr(line, *ptr + 1, *ptr + i);
+	printf("name : %s\n", name);
 	i = 0;
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], name, ft_strlen(name)))
 		{
+			printf("search : %s\n", envp[i]);
 			res = ft_substr(envp[i], ft_strlen(name) + 1, ft_strlen(envp[i]));
 			break ;
 		}
@@ -77,14 +38,17 @@ char	*is_exist_env(char *line, char**envp, int *ptr)
 	}
 	free(name);
 	if (!res)
-		return ("");
+		return (ft_strdup(""));
 	return (res);
 }
 
-void	sfree(void	*ptr)
+void	sfree(void *ptr)
 {
 	if (ptr)
+	{
 		free(ptr);
+		ptr = NULL;
+	}
 }
 
 char	*super_join(char *src1, char *src2)
@@ -96,9 +60,8 @@ char	*super_join(char *src1, char *src2)
 	sfree(src2);
 	return (dst);
 }
-// aaaa$a aaaa "$a " '$a ' "aa'$a' " 'aaa"$a"aaa'
-// aaaab  aaaa "b 
-char	*substitute_env2(char *line, char **envp)
+
+char	*substitute_env(char *line, char **envp)
 {
 	int		start;
 	int		ptr;
@@ -112,25 +75,25 @@ char	*substitute_env2(char *line, char **envp)
 	res = NULL;
 	while (line[ptr])
 	{
-		if (line[ptr] == '\'' && flag)
+		if (line[ptr] == '\'' && !flag)
 		{
-			while (line[++ptr] == '\'')
-			res = super_join(res, ft_substr(line, start, ptr));
+			while (line[++ptr] != '\'') ;
+			res = super_join(res, ft_substr(line, start, ++ptr));
+			start = ptr;
 		}
 		else if (line[ptr] == '\"')
 			flag = !flag;
-		else if (line[ptr] == '$')
+		else if (line[ptr] == '$' && !ft_isoperator(line[ptr + 1]) && line[ptr + 1] != ' ' && line[ptr + 1] != '\0') // -> 치치환
 		{
-			env = super_join(ft_substr(line, start, ptr), is_exist_env(line, envp, &ptr));
+			env = super_join(ft_substr(line, start, ptr - start), is_exist_env(line, envp, &ptr));
 			res = super_join(res, env);
-			printf("%d\n", ptr);
 			start = ptr;
+			continue ;
 		}
 		ptr++;
 	}
-	printf("%d | %d\n", start, ptr);
-	// if (start != ptr)
-	// 	res = superjoin(res, ft_substr(line, start, ptr));
+	 if (start != ptr)
+	 	res = super_join(res, ft_substr(line, start, ptr - start));
 	return (res);
 }
 
@@ -141,13 +104,16 @@ t_token	*ft_tokenize(char *line, char **envp)
 
 	if (valid_quotes(line) == FALSE)
 	{
-		printf("Quotes errors\n");
+		ft_fprintf(STDERR_FILENO, "Invalid quote\n");
 		return (NULL);
 	}
-	expand_line = substitute_env2(line, envp);
-	printf("%s\n", expand_line);
-	exit(0);
-	// token_lst = ft_strtok(line, envp);
-	// free(line);
-	// return (token_lst);
+	expand_line = substitute_env(line, envp);
+	if (expand_line == NULL)
+		exit(FAIL);
+	free(line);
+	token_lst = ft_strtok(expand_line);
+	if (token_lst == NULL)
+		exit(FAIL);
+	free(expand_line);
+	return (token_lst);
 }

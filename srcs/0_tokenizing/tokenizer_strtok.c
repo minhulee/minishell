@@ -6,11 +6,41 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:13:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 12:43:28 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:29:54 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*tokenize_quote_str(char **line)
+{
+	char	*tmp;
+	char	*ptr;
+	char	*value;
+
+	tmp = *line;
+	ptr = ft_strchr(*line + 1, *tmp);
+	value = ft_substr(tmp, 1, (size_t)(ptr - tmp - 1));
+	if (value == NULL)
+		exit(FAIL);
+	*line += (ptr - tmp + 1);
+	return (value);
+}
+
+char	*tokenize_str(char **line)
+{
+	char	*tmp;
+	char	*value;
+
+	tmp = *line;
+	while (**line != '\0' && !ft_isspace(**line)
+		&& !ft_isquote(**line) && !ft_isoperator(**line))
+		(*line)++;
+	value = ft_substr(tmp, 0, *line - tmp);
+	if (value == NULL)
+		exit(FAIL);
+	return (value);
+}
 
 static t_status	tokenize_operator(char **line, t_token **token_lst)
 {
@@ -25,23 +55,19 @@ static t_status	tokenize_operator(char **line, t_token **token_lst)
 	return (append_operator(PIPE, line, token_lst));
 }
 
-// a="ls "
-// $a-al -> ls -al -> 성립.
-static t_status	tokenize_identifier(char **line, t_token **token_lst, char **envp)
+static t_status	tokenize_identifier(char **line, t_token **token_lst)
 {
 	t_token	*new;
 	char	*tmp;
 	char	*content;
 
 	content = NULL;
-	while (**line != '\0')
+	while (**line != '\0' && !ft_isspace(**line) && !ft_isoperator(**line))
 	{
-		if (ft_isspace(**line) || ft_isoperator(**line))
-			break ;
 		if (**line == '"' || **line == '\'')
-			tmp = tokenize_quote(line, envp);
+			tmp = tokenize_quote_str(line);
 		else
-			tmp = tokenize_str(line, envp);
+			tmp = tokenize_str(line);
 		if (content != NULL)
 		{
 			content = ft_strjoin(content, tmp);
@@ -52,12 +78,12 @@ static t_status	tokenize_identifier(char **line, t_token **token_lst, char **env
 	}
 	new = token_lst_new(content, ARGUMENT);
 	if (new == NULL)
-		exit(FAIL);
+		return (FAIL);
 	token_lst_add_back(token_lst, new);
 	return (SUCCESS);
 }
 
-t_token	*ft_strtok(char *line, char **envp)
+t_token	*ft_strtok(char *line)
 {
 	t_status	flag;
 	t_token		*token_lst;
@@ -67,10 +93,7 @@ t_token	*ft_strtok(char *line, char **envp)
 	while (*line != '\0')
 	{
 		if (flag == FAIL)
-		{
-			token_lst_clear(&token_lst);
-			return (NULL);
-		}
+			exit(FAIL);
 		while (ft_isspace(*line) == TRUE)
 			line++;
 		if (*line == '\0')
@@ -78,7 +101,7 @@ t_token	*ft_strtok(char *line, char **envp)
 		if (*line == '>' || *line == '<' || *line == '|')
 			flag = tokenize_operator(&line, &token_lst);
 		else
-			flag = tokenize_identifier(&line, &token_lst, envp);
+			flag = tokenize_identifier(&line, &token_lst);
 	}
 	classify_identifier(token_lst);
 	return (token_lst);

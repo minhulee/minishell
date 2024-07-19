@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 23:19:23 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 23:26:21 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 
 # include "./get_next_line.h"
+# include "./ft_fprintf.h"
 
 typedef struct s_list
 {

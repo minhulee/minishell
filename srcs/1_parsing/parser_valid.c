@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:36:13 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 16:05:12 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 23:55:32 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_bool	valid_operator_syntax(t_token *token)
 				|| (token->prev != NULL && token->prev->type == PIPE)
 				|| (token->next != NULL && token->next->type == PIPE))
 			{
-				printf("Syntax error: pipe\n");
+				ft_fprintf(STDERR_FILENO, "minishell: Syntax error: pipe\n");
 				return (FALSE);
 			}
 		}
@@ -30,7 +30,7 @@ t_bool	valid_operator_syntax(t_token *token)
 					&& (ft_isredirect(token->next->type) == TRUE))
 				|| token->next == NULL))
 		{
-			printf("Syntax error: redirect\n");
+			ft_fprintf(STDERR_FILENO, "minishell: syntax error: redirect\n");
 			return (FALSE);
 		}
 		token = token->next;

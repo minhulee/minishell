@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/15 16:35:40 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/19 01:09:20 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct	s_command
 	t_built_type		builtin_type;
 	int					heredoc_cnt;
 	t_file				*file_lst;
+	int					saved_stdout;
+	int					saved_stdin;
 	int					prev_pipe_fd[2];
 	int					curr_pipe_fd[2];
 	int					infile_fd;

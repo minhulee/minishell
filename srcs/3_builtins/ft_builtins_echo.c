@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:41:02 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 00:10:06 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:08:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static int	check_flag_n(t_command *cmd)
 	return (i);
 }
 
-// echo -nnnnnn hello 처리 필요함.
-// echo -n -n -n -n hello 처리 필요함.
 void	builtins_echo(t_command *cmd)
 {
 	int	i;

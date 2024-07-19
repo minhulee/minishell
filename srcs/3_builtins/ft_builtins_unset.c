@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 12:44:54 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:07:39 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static int	unset_env(char **args, t_list *env_lst)
 	return (cnt);
 }
 
-// unset a -> a 지우기
 void	builtins_unset(t_command *cmd, t_info *info)
 {
 	int		cnt;

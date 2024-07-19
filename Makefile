@@ -6,14 +6,14 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/18 02:51:17 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/19 12:14:18 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
-LDFLAGS = -lreadline -fsanitize=address
+LDFLAGS = -lreadline
 RM = rm -f
 MAKE_CUR = make -C
 LIBFT_DIR = ./libft
@@ -22,13 +22,10 @@ SRCS = ./srcs/main.c \
 	./srcs/0_tokenizing/tokenizer.c \
 	./srcs/0_tokenizing/tokenizer_utils.c \
 	./srcs/0_tokenizing/tokenizer_strtok.c \
-	./srcs/0_tokenizing/tokenizer_strtok_utils.c \
-	./srcs/0_tokenizing/tokenizer_str.c \
-	./srcs/0_tokenizing/tokenizer_quote.c \
-	./srcs/0_tokenizing/tokenizer_append.c \
 	./srcs/0_tokenizing/tokenizer_lst.c \
 	./srcs/0_tokenizing/tokenizer_valid.c \
 	./srcs/0_tokenizing/tokenizer_classify.c \
+	./srcs/0_tokenizing/tokenizer_append.c \
 	./srcs/1_parsing/parser.c \
 	./srcs/1_parsing/parser_init.c \
 	./srcs/1_parsing/parser_lst.c \
@@ -40,7 +37,6 @@ SRCS = ./srcs/main.c \
 	./srcs/2_executing/executor.c \
 	./srcs/2_executing/executor_path.c \
 	./srcs/2_executing/executor_run.c \
-	./srcs/2_executing/executor_utils.c \
 	./srcs/2_executing/executor_heredoc.c \
 	./srcs/2_executing/executor_set_fd.c \
 	./srcs/2_executing/executor_set_redirect.c \
@@ -64,7 +60,7 @@ $(NAME) : make_mandatory
 
 make_mandatory : $(OBJS)
 	$(MAKE_CUR) $(LIBFT_DIR) bonus
-	$(CC) $(LDFLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(INCLUDES) -o $(NAME) $(LDFLAGS) 
 	@ touch make_mandatory
 
 debug :
