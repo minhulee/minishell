@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:49:43 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/19 00:31:58 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 16:53:13 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern int	sigint;
+
 
 void	process_heredoc(t_info *info, t_command *cmd)
 {
@@ -38,8 +41,9 @@ void	process_heredoc(t_info *info, t_command *cmd)
 				while (TRUE)
 				{
 					write(1, "> ", 3);
-					input = get_next_line(STDIN_FILENO);
-					if (input == NULL || ft_strncmp(input, delimiter, ft_strlen(delimiter)) == 0)
+					input = get_next_line(STDIN_FILENO); // <- cntl + c -> sigint
+					printf("[%s]\n", input);
+					if (input == NULL || ft_strncmp(input, delimiter, ft_strlen(input)) == 0 || sigint)
 						break ;
 					write(fd, input, ft_strlen(input));
 					free(input);

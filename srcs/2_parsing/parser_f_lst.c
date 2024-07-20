@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_f_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 23:57:50 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/16 12:08:10 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 16:30:04 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_file	*file_lst_new(t_token_type type, char *content)
 		return (NULL);
 	new->type = type;
 	if (type == HEREDOC)
-		new->delimit = content;
+		new->delimit = super_join(content, ft_strdup("\n"));
 	else
 		new->file_name = content;
 	return (new);

@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
+#    By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/20 00:02:42 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/20 16:36:15 by minhulee         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
-LDFLAGS = -lreadline
-MAC_READLINE_PATH = -I /opt/homebrew/opt/readline/include
-MAC_READLINE_FLAGS = $(LDFLAGS) $(MAC_READLINE_PATH) -L/opt/homebrew/opt/readline/lib
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lreadline -fsanitize=address
+#MAC_READLINE_PATH = -I /opt/homebrew/opt/readline/include
+#MAC_READLINE_FLAGS = $(LDFLAGS) $(MAC_READLINE_PATH) -L/opt/homebrew/opt/readline/lib
 RM = rm -f
 MAKE_CUR = make -C
 LIBFT_DIR = ./libft
@@ -63,7 +63,7 @@ $(NAME) : make_mandatory
 
 make_mandatory : $(OBJS)
 	$(MAKE_CUR) $(LIBFT_DIR) bonus
-	$(CC) $(OBJS) $(MAC_READLINE_FLAGS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(LDFLAGS) $(INCLUDES) -o $(NAME)
 	@ touch make_mandatory
 
 debug :
@@ -73,7 +73,7 @@ dclean :
 	rm -rf ./a.out ./a.out.dSYM
 
 %.o : %.c
-	$(CC) -c $< -o $@ $(MAC_READLINE_PATH)
+	$(CC) -c $< -o $@ $(LDFLAGS)
 
 clean :
 	$(MAKE_CUR) $(LIBFT_DIR) clean

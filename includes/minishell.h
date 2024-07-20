@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 00:01:08 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 16:29:21 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,8 @@ t_status	init_info(t_info *info, char **envp);
 
 // 0_init/init_envp.c
 t_status	init_envp(t_info *info, char **envp);
+
+// ++
+char		*super_join(char *src1, char *src2);
 
 #endif

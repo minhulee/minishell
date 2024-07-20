@@ -3,23 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 00:55:01 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:03:45 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
+
+int	sigint;
 
 void	handle_signal(int sig)
 {
 	if (sig == SIGINT)// ctrl+c 새로운 프롬프트 출력
 	{
+		sigint = 1;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 1);
-		rl_redisplay(); 
+		rl_redisplay();
     }
 }
 
