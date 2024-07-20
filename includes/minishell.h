@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 16:29:21 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/07/20 19:32:19 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_info // -> 미니쉘에 대한 정보, 쉘 속의 쉘
 	pid_t				pid;
 	t_token				*token;
 	t_command			*cmd;
+	int					exit_status;
 	struct termios		og_term;
 }	t_info;
 

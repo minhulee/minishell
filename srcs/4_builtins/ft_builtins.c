@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:19:39 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/19 22:59:35 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 19:33:23 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_builtins(t_command *cmd, t_info *info)
 	else if (cmd->builtin_type == ECHO_)
 		builtins_echo(cmd);
 	else if (cmd->builtin_type == EXIT)
-		builtins_exit(cmd);
+		builtins_exit(cmd, info);
 	else if (cmd->builtin_type == EXPORT)
 		builtins_export(cmd, info);
 	else if (cmd->builtin_type == UNSET)

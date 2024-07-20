@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 17:56:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/20 19:48:18 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_heredoc(int sig)
 		exit(1);
 }
 
-void	make_heredoc_file(t_info *info, t_command *cmd)
+void	init_heredoc(t_info *info, t_command *cmd)
 {
 	int		i;
 	char	*tmp_i;
@@ -80,7 +80,7 @@ t_status	ft_execute(t_info *info)
 	pid_t	pid;
 	int		status;
 
-	make_heredoc_file(info, info->cmd);
+	init_heredoc(info, info->cmd);
 	pid = fork();
 	if (!pid)
 	{
@@ -98,6 +98,7 @@ t_status	ft_execute(t_info *info)
 		{
 			set_redirect_fd(info->cmd);
 			set_file_fd(info->cmd);
+			info->cmd->is_parent = TRUE;
 			ft_builtins(info->cmd, info);
 		}
 		else
@@ -107,7 +108,7 @@ t_status	ft_execute(t_info *info)
 			get_path(split_path, &(info->cmd));
 			ps_cnt = 0;
 			run_commands(info, info->cmd, &ps_cnt);
-			exit_status = wait_children(ps_cnt, info->pid);
+			info->exit_status = wait_children(ps_cnt, info->pid);
 		}
 	}
 	delete_heredoc(info->cmd);

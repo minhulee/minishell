@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/20 16:36:15 by minhulee         ###   ########seoul.kr   #
+#    Updated: 2024/07/20 19:20:34 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ dclean :
 	rm -rf ./a.out ./a.out.dSYM
 
 %.o : %.c
-	$(CC) -c $< -o $@ $(LDFLAGS)
+	$(CC) -c $< -o $@
 
 clean :
 	$(MAKE_CUR) $(LIBFT_DIR) clean
