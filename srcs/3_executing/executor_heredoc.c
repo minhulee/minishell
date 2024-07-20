@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:49:43 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 16:53:13 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/07/20 17:54:57 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 extern int	sigint;
-
 
 void	process_heredoc(t_info *info, t_command *cmd)
 {
@@ -22,7 +21,6 @@ void	process_heredoc(t_info *info, t_command *cmd)
 	char	*tmp_i;
 	char	*delimiter;
 	char	*input;
-	char	*tmp;
 	t_file	*f_lst;
 
 	i = 1;
@@ -33,16 +31,12 @@ void	process_heredoc(t_info *info, t_command *cmd)
 		{
 			if (f_lst->type == HEREDOC)
 			{
-				tmp_i = ft_itoa(i);
-				tmp = ft_strjoin(TEMPFILE, tmp_i);
-				free(tmp_i);
-				fd = open(tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				fd = open(f_lst->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				delimiter = f_lst->delimit;
 				while (TRUE)
 				{
 					write(1, "> ", 3);
-					input = get_next_line(STDIN_FILENO); // <- cntl + c -> sigint
-					printf("[%s]\n", input);
+					input = get_next_line(STDIN_FILENO);
 					if (input == NULL || ft_strncmp(input, delimiter, ft_strlen(input)) == 0 || sigint)
 						break ;
 					write(fd, input, ft_strlen(input));
@@ -50,8 +44,6 @@ void	process_heredoc(t_info *info, t_command *cmd)
 				}
 				(cmd->heredoc_cnt)--;
 				(info->total_heredoc_cnt)--;
-				f_lst->file_name = ft_strdup(tmp);
-				free(tmp);
 				if (input != NULL)
 					free(input);
 				close(fd);
@@ -61,6 +53,7 @@ void	process_heredoc(t_info *info, t_command *cmd)
 		i++;
 		cmd = cmd->next;
 	}
+	exit(0);
 }
 
 void	delete_heredoc(t_command *cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 17:18:41 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/07/20 17:56:36 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,33 @@ int		wait_children(int ps_cnt, pid_t last_pid)
 void	handle_heredoc(int sig)
 {
 	if (sig == SIGINT)
-	{
-		ft_fprintf(STDERR_FILENO, "exit\n");
 		exit(1);
+}
+
+void	make_heredoc_file(t_info *info, t_command *cmd)
+{
+	int		i;
+	char	*tmp_i;
+	char	*tmp;
+	t_file	*f_lst;
+
+	i = 1;
+	while (cmd != NULL)
+	{
+		f_lst = cmd->file_lst;
+		while (f_lst != NULL)
+		{
+			if (f_lst->type == HEREDOC)
+			{
+				tmp_i = ft_itoa(i);
+				tmp = ft_strjoin(TEMPFILE, tmp_i);
+				free(tmp_i);
+				f_lst->file_name = tmp;
+			}
+			f_lst = f_lst->next;
+		}
+		i++;
+		cmd = cmd->next;
 	}
 }
 
@@ -53,9 +77,11 @@ t_status	ft_execute(t_info *info)
 	char		*path_env;
 	int			exit_status;
 	int			ps_cnt;
-
-	pid_t	pid = fork();
+	pid_t	pid;
 	int		status;
+
+	make_heredoc_file(info, info->cmd);
+	pid = fork();
 	if (!pid)
 	{
 		signal(SIGINT, handle_heredoc);
