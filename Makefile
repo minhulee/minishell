@@ -6,7 +6,7 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/20 19:20:34 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/22 00:01:58 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline -fsanitize=address
-#MAC_READLINE_PATH = -I /opt/homebrew/opt/readline/include
-#MAC_READLINE_FLAGS = $(LDFLAGS) $(MAC_READLINE_PATH) -L/opt/homebrew/opt/readline/lib
+MAC_READLINE_PATH = -I /opt/homebrew/opt/readline/include
+MAC_READLINE_FLAGS = $(LDFLAGS) $(MAC_READLINE_PATH) -L/opt/homebrew/opt/readline/lib
 RM = rm -f
 MAKE_CUR = make -C
 LIBFT_DIR = ./libft
@@ -23,6 +23,7 @@ LIBFT = ./libft/libft.a
 SRCS = ./srcs/main.c \
 	./srcs/0_init/init_info.c \
 	./srcs/0_init/init_envp.c \
+	./srcs/0_init/init_signal.c \
 	./srcs/1_tokenizing/tokenizer.c \
 	./srcs/1_tokenizing/tokenizer_utils.c \
 	./srcs/1_tokenizing/tokenizer_strtok.c \
@@ -30,6 +31,7 @@ SRCS = ./srcs/main.c \
 	./srcs/1_tokenizing/tokenizer_valid.c \
 	./srcs/1_tokenizing/tokenizer_classify.c \
 	./srcs/1_tokenizing/tokenizer_append.c \
+	./srcs/1_tokenizing/tokenizer_env.c \
 	./srcs/2_parsing/parser.c \
 	./srcs/2_parsing/parser_init.c \
 	./srcs/2_parsing/parser_lst.c \
@@ -41,6 +43,8 @@ SRCS = ./srcs/main.c \
 	./srcs/3_executing/executor.c \
 	./srcs/3_executing/executor_path.c \
 	./srcs/3_executing/executor_run.c \
+	./srcs/3_executing/executor_clear.c \
+	./srcs/3_executing/executor_valid.c \
 	./srcs/3_executing/executor_heredoc.c \
 	./srcs/3_executing/executor_set_fd.c \
 	./srcs/3_executing/executor_set_redirect.c \
@@ -63,17 +67,17 @@ $(NAME) : make_mandatory
 
 make_mandatory : $(OBJS)
 	$(MAKE_CUR) $(LIBFT_DIR) bonus
-	$(CC) $(OBJS) $(LDFLAGS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(MAC_READLINE_FLAGS) $(INCLUDES) -o $(NAME)
 	@ touch make_mandatory
 
 debug :
-	cc -g -lreadline $(SRCS) ./libft/*.c
+	cc -g $(MAC_READLINE_FLAGS) $(SRCS) ./libft/*.c
 
 dclean :
 	rm -rf ./a.out ./a.out.dSYM
 
 %.o : %.c
-	$(CC) -c $< -o $@
+	$(CC) -c $< -o $@ $(MAC_READLINE_FLAGS)
 
 clean :
 	$(MAKE_CUR) $(LIBFT_DIR) clean

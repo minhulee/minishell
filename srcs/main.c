@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 17:20:22 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/21 23:44:39 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,16 @@
 
 int	sigint;
 
-void	handle_signal(int sig)
+t_status	ft_minishell(t_info *info)
 {
-	if (sig == SIGINT)// ctrl+c 새로운 프롬프트 출력
-	{
-		sigint = 1;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-    }
-}
-
-void	init_signal(t_info *info)
-{
-	struct termios	term;
-
-	term = info->og_term;
-	term.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
+	info->token = ft_tokenize(info->line, info->dup_envp, info->exit_status);
+	if (info->token == NULL)
+		return (FAIL);
+	info->cmd = ft_parse(info->token, &(info->total_heredoc_cnt));
+	if (info->cmd == NULL)
+		return (FAIL);
+	ft_execute(info);
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -59,13 +48,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(info.line);
-		info.token = ft_tokenize(info.line, info.dup_envp);
-		if (info.token == NULL)
+		if (ft_minishell(&info) == FAIL)
 			continue ;
-		info.cmd = ft_parse(info.token, &(info.total_heredoc_cnt));
-		if (info.cmd == NULL)
-			continue ;
-		ft_execute(&info);
 	}
 	exit(SUCCESS);
 }

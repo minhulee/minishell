@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   init_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:34:14 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/21 23:35:16 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/21 23:35:50 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*ft_tokenize(char *line, char **envp, int exit_status)
+void	handle_signal(int sig)
 {
-	t_token	*token_lst;
-	char	*expand_line;
-
-	if (valid_quotes(line) == FALSE)
+	if (sig == SIGINT)
 	{
-		ft_fprintf(STDERR_FILENO, "Invalid quote\n");
-		return (NULL);
-	}
-	expand_line = substitute_env(line, envp, exit_status);
-	if (expand_line == NULL)
-		exit(FAIL);
-	free(line);
-	token_lst = ft_strtok(expand_line);
-	if (token_lst == NULL)
-		exit(FAIL);
-	free(expand_line);
-	return (token_lst);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+    }
+}
+
+void	init_signal(t_info *info)
+{
+	struct termios	term;
+
+	term = info->og_term;
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:49:43 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 17:54:57 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/21 22:37:26 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,56 @@
 
 extern int	sigint;
 
-void	process_heredoc(t_info *info, t_command *cmd)
+void	init_heredoc(t_info *info, t_command *cmd)
 {
-	int		fd;
 	int		i;
 	char	*tmp_i;
-	char	*delimiter;
-	char	*input;
+	char	*tmp;
 	t_file	*f_lst;
 
 	i = 1;
+	while (cmd != NULL)
+	{
+		f_lst = cmd->file_lst;
+		while (f_lst != NULL)
+		{
+			if (f_lst->type == HEREDOC)
+			{
+				tmp_i = ft_itoa(i);
+				tmp = ft_strjoin(TEMPFILE, tmp_i);
+				free(tmp_i);
+				f_lst->file_name = tmp;
+			}
+			f_lst = f_lst->next;
+		}
+		i++;
+		cmd = cmd->next;
+	}
+}
+
+void	write_heredoc(char *delimiter, int fd)
+{
+	char	*input;
+
+	while (TRUE)
+	{
+		write(1, "> ", 3);
+		input = get_next_line(STDIN_FILENO);
+		if (input == NULL || ft_strncmp(input, delimiter, ft_strlen(input)) == 0)
+			break ;
+		write(fd, input, ft_strlen(input));
+		free(input);
+	}
+	if (input != NULL)
+		free(input);
+}
+
+void	create_heredoc(t_info *info, t_command *cmd)
+{
+	int		fd;
+	char	*delimiter;
+	t_file	*f_lst;
+
 	while (cmd != NULL && info->total_heredoc_cnt > 0)
 	{
 		f_lst = cmd->file_lst;
@@ -33,27 +73,42 @@ void	process_heredoc(t_info *info, t_command *cmd)
 			{
 				fd = open(f_lst->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				delimiter = f_lst->delimit;
-				while (TRUE)
-				{
-					write(1, "> ", 3);
-					input = get_next_line(STDIN_FILENO);
-					if (input == NULL || ft_strncmp(input, delimiter, ft_strlen(input)) == 0 || sigint)
-						break ;
-					write(fd, input, ft_strlen(input));
-					free(input);
-				}
+				write_heredoc(delimiter, fd);
 				(cmd->heredoc_cnt)--;
 				(info->total_heredoc_cnt)--;
-				if (input != NULL)
-					free(input);
 				close(fd);
 			}
 			f_lst = f_lst->next;
 		}
-		i++;
 		cmd = cmd->next;
 	}
-	exit(0);
+	exit(SUCCESS);
+}
+
+void	handle_heredoc(int sig)
+{
+	if (sig == SIGINT)
+		exit(FAIL);
+}
+
+int	process_heredoc(t_info *info, t_command *cmd)
+{
+	pid_t	pid;
+	int		status;
+
+	init_heredoc(info, cmd);
+	pid = fork();
+	if (!pid)
+	{
+		signal(SIGINT, handle_heredoc);
+		create_heredoc(info, info->cmd);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+	}
+	return (status);
 }
 
 void	delete_heredoc(t_command *cmd)

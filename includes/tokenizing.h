@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 19:30:22 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/21 22:29:42 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct	s_token
 }	t_token;
 
 // tokenizer.c
-t_token			*ft_tokenize(char *line, char **envp);
+t_token			*ft_tokenize(char *line, char **envp, int exit_status);
 
 // tokenizer_append.c
 t_status	append_operator(t_token_type type, char **line
@@ -63,5 +63,9 @@ t_status	skip_quotes(char *line, int *i);
 
 // tokenizer_classify.c
 void classify_identifier(t_token *token);
+
+// tokenizer_substitute.c
+char	*super_join(char *src1, char *src2);
+char	*substitute_env(char *line, char **envp, int exit_status);
 
 #endif

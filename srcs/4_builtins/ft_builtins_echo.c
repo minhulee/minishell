@@ -6,13 +6,12 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:41:02 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/18 18:08:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/21 23:04:47 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// echo a
 static int	check_flag_n(t_command *cmd)
 {
 	int	i;
@@ -35,15 +34,10 @@ static int	check_flag_n(t_command *cmd)
 	return (i);
 }
 
-void	builtins_echo(t_command *cmd)
+static void	print_args_with_flag(t_command *cmd)
 {
 	int	i;
 
-	if (cmd->args[1] == NULL)
-	{
-		printf("\n");
-		return ;
-	}
 	i = check_flag_n(cmd);
 	if (i > 0)
 	{
@@ -61,4 +55,13 @@ void	builtins_echo(t_command *cmd)
 			printf("%s ", cmd->args[i]);
 		printf("\n");
 	}
+}
+
+void	builtins_echo(t_command *cmd, t_info *info)
+{
+	if (cmd->args[1] == NULL)
+		printf("\n");
+	else
+		print_args_with_flag(cmd);
+	info->exit_status = SUCCESS;
 }

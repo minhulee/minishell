@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/20 00:21:41 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/21 23:19:28 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ void	builtins_unset(t_command *cmd, t_info *info)
 		if (info->dup_envp == NULL)
 			exit(FAIL);
 	}
-	return ;
+	info->exit_status = SUCCESS;
 }
