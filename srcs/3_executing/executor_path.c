@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 02:50:06 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 13:56:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ static char	*get_cmd_path(char **path, char *path_cmd)
 	return (NULL);
 }
 
+static t_bool	check_relative_path(char *cmd)
+{
+	if (ft_strncmp(cmd, "./", 2) == 0)
+		return (TRUE);
+	if (ft_strncmp(cmd, "../", 3) == 0)
+		return (TRUE);
+	if (ft_strchr(cmd, '/') != NULL)
+		return (TRUE);
+	return (FALSE);
+}
+
 static char	*find_cmd_path(char **path, char *cmd)
 {
 	int		i;
@@ -62,7 +73,9 @@ static char	*find_cmd_path(char **path, char *cmd)
 
 	if (cmd == NULL)
 		return (NULL);
-	if (cmd[0] == '/')
+	if (cmd[0] == '/')// absolute path
+		return (ft_strdup(cmd));
+	if (check_relative_path(cmd) == TRUE)// relative_path
 		return (ft_strdup(cmd));
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
