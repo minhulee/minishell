@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:27:12 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:42:53 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 02:50:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static char	*find_cmd_path(char **path, char *cmd)
 
 	if (cmd == NULL)
 		return (NULL);
+	if (cmd[0] == '/')
+		return (ft_strdup(cmd));
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	path_cmd = ft_strjoin("/", cmd);

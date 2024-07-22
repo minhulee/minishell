@@ -6,14 +6,12 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:44:39 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 03:01:22 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <unistd.h>
-
-int	sigint;
 
 t_status	ft_minishell(t_info *info)
 {

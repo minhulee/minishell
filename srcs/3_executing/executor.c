@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 22:51:14 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 03:01:07 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,16 @@ int		wait_children(int ps_cnt, pid_t last_pid)
 			ps_cnt--;
 		if (curr_pid == last_pid)
 		{
-			if (WIFEXITED(status))
+			if (WIFSIGNALED(status) == TRUE)
+				exit_status = 128 + WTERMSIG(status);
+			else
 				exit_status = WEXITSTATUS(status);
 		}
 	}
+	if (exit_status == 130)
+		ft_fprintf(STDERR_FILENO, "\n");
+	if (exit_status == 131)
+		ft_fprintf(STDERR_FILENO, "Quit: 3\n");
 	return (exit_status);
 }
 

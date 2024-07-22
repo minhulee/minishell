@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 00:01:04 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 02:48:45 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void child_process(t_command *cmd, t_info *info)
 
 static void	parent_process(t_command *cmd)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (cmd->prev != NULL)
 		close(cmd->prev_pipe_fd[0]);
 	if (cmd->next != NULL)
@@ -61,6 +63,8 @@ void run_commands(t_info *info, t_command *cmd, int *cnt)
 {
 	while (cmd != NULL)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (cmd->next != NULL)
 			pipe(cmd->curr_pipe_fd);
 		info->pid = fork();

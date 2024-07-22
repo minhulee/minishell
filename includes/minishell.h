@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:54:17 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 02:17:48 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_info // -> 미니쉘에 대한 정보, 쉘 속의 쉘
 	t_token				*token;
 	t_command			*cmd;
 	struct termios		og_term;
+	struct termios		ch_term;
 }	t_info;
 
 # include "./executing.h"
