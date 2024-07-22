@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 00:01:57 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:19:48 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:06:48 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ int	change_env(char *arg, t_list *env_lst, char *ptr)
 	return (0);
 }
 
-void	export_fprintf_err(char *s, t_info *info)
+void	export_fprintf_err(t_command *cmd, char *s, t_info *info)
 {
 	ft_fprintf(STDERR_FILENO,
 			"minishell: export: %s: not a valid identifier\n", s);
+	if (cmd->is_parent != TRUE)
+		exit(FAIL);
 	info->exit_status = FAIL;
 }

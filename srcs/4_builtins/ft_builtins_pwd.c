@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:24:11 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:20:21 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:02:22 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	builtins_pwd(t_command *cmd, t_info *info)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		ft_fprintf(STDERR_FILENO, "getcwd() error\n");
-		info->exit_status = FAIL;
+		exit(FAIL);
 	}
 	else
 	{

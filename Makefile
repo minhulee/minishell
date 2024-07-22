@@ -6,16 +6,17 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/22 00:01:58 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/22 14:16:28 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lreadline -fsanitize=address
-MAC_READLINE_PATH = -I /opt/homebrew/opt/readline/include
-MAC_READLINE_FLAGS = $(LDFLAGS) $(MAC_READLINE_PATH) -L/opt/homebrew/opt/readline/lib
+#RDFLAGS = -lreadline -fsanitize=address
+# for M2
+RDPATH = -I /opt/homebrew/opt/readline/include
+RDFLAGS = -lreadline $(RDPATH) -L/opt/homebrew/opt/readline/lib
 RM = rm -f
 MAKE_CUR = make -C
 LIBFT_DIR = ./libft
@@ -67,17 +68,17 @@ $(NAME) : make_mandatory
 
 make_mandatory : $(OBJS)
 	$(MAKE_CUR) $(LIBFT_DIR) bonus
-	$(CC) $(OBJS) $(MAC_READLINE_FLAGS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(RDFLAGS) $(INCLUDES) -o $(NAME)
 	@ touch make_mandatory
 
 debug :
-	cc -g $(MAC_READLINE_FLAGS) $(SRCS) ./libft/*.c
+	cc -g $(RDFLAGS) $(SRCS) ./libft/*.c
 
 dclean :
 	rm -rf ./a.out ./a.out.dSYM
 
 %.o : %.c
-	$(CC) -c $< -o $@ $(MAC_READLINE_FLAGS)
+	$(CC) $(RDFLAGS) -c $< -o $@
 
 clean :
 	$(MAKE_CUR) $(LIBFT_DIR) clean

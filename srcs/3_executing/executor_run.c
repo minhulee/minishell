@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 12:01:03 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:14:25 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void child_process(t_command *cmd, t_info *info)
 {
 	set_fd(cmd, info);
-	if (cmd->cmd_path == NULL)
+	if (cmd->cmd_path == NULL && cmd->builtin_type == NOTBUILTIN)
 	{
 		ft_fprintf(STDERR_FILENO,
 				"minishell: %s: command not found\n", cmd->cmd);
@@ -23,13 +23,16 @@ static void child_process(t_command *cmd, t_info *info)
 	}
 	else
 	{
-		check_cmd_path(cmd->cmd_path);
 		if (cmd->builtin_type != NOTBUILTIN)
 			ft_builtins(cmd, info);
-		else if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
+		else
 		{
-			ft_fprintf(STDERR_FILENO, "execve() error\n");
-			exit(FAIL);
+			check_cmd_path(cmd->cmd_path);
+			if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
+			{
+				ft_fprintf(STDERR_FILENO, "execve() error\n");
+				exit(FAIL);
+			}
 		}
 		exit(SUCCESS);
 	}

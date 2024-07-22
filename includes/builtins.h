@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:33:47 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:10:56 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:06:44 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ void	builtins_export(t_command *cmd, t_info *info);
 
 // ft_builtins_export_utils.c
 int		change_env(char *arg, t_list *env_lst, char *ptr);
-void	export_fprintf_err(char *s, t_info *info);
+void	export_fprintf_err(t_command *cmd, char *s, t_info *info);
 
 #endif
