@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 14:01:37 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:42:23 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,55 @@ char	**unset_dup_envp(t_list *env_lst)
 	return (ret);
 }
 
-static int	unset_env(char **args, t_list *env_lst)
+static t_bool	unset_is_valid_name(char *s, t_info *info)
 {
-	int		cnt;
+	if (!(*s == '_' || ft_isalpha(*s)))
+	{
+		info->exit_status = FAIL;
+		ft_fprintf(STDERR_FILENO,
+			"minishell: unset: `%s': not a valid identifier\n", s);
+		return (FALSE);
+	}
+	while (*s != '\0')
+	{
+		if (!(*s == '_' || ft_isalnum(*s)))
+		{
+			info->exit_status = FAIL;
+			ft_fprintf(STDERR_FILENO,
+				"minishell: unset: `%s': not a valid identifier\n", s);
+			return (FALSE);
+		}
+		s++;
+	}
+	return (TRUE);
+}
+
+static void	unset_env(char **args, t_list *env_lst, t_info *info, int *cnt)
+{
 	t_list	*tmp;
 	char	*find;
 
-	cnt = 0;
 	while (*(++args) != NULL)
 	{
+		if (unset_is_valid_name(*args, info) == FALSE)
+			continue ;
 		find = ft_strjoin(*args, "=");
 		while (env_lst != NULL)
 		{
-			if (env_lst->next != NULL &&
-				ft_strncmp(find, env_lst->next->content, ft_strlen(find)) == 0)
+			if (env_lst->next != NULL
+				&& ft_strncmp(find, env_lst->next->content,
+					ft_strlen(find)) == 0)
 			{
 				tmp = env_lst->next->next;
 				ft_lstdelone(env_lst->next, free);
 				env_lst->next = tmp;
-				cnt++;
+				(*cnt)++;
 				break ;
 			}
 			env_lst = env_lst->next;
 		}
 		free(find);
 	}
-	return (cnt);
 }
 
 void	builtins_unset(t_command *cmd, t_info *info)
@@ -73,7 +96,9 @@ void	builtins_unset(t_command *cmd, t_info *info)
 	int		cnt;
 	int		i;
 
-	cnt = unset_env(cmd->args, info->env_lst);
+	info->exit_status = SUCCESS;
+	cnt = 0;
+	unset_env(cmd->args, info->env_lst, info, &cnt);
 	if (cnt > 0)
 	{
 		i = -1;
@@ -84,5 +109,6 @@ void	builtins_unset(t_command *cmd, t_info *info)
 		if (info->dup_envp == NULL)
 			exit(FAIL);
 	}
-	info->exit_status = SUCCESS;
+	if (cmd->is_parent != TRUE)
+		exit(info->exit_status);
 }

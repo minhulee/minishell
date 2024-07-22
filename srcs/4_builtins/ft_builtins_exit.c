@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:03:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/21 23:10:36 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:21:42 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ void	exit_process(char *args)
 	int		exit_value;
 
 	exit_value = ft_atoi(args);
+	if (exit_value < 0)
+		while (exit_value < 0)
+			exit_value += 256;
 	if (exit_value > 255)
 		exit_value = exit_value % 256;
 	exit(exit_value);
