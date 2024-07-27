@@ -6,65 +6,90 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:19:35 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 15:26:08 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:20:15 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static t_bool	is_valid_name(char *s, char *end)
+char	*export_extract_name(char *env)
 {
-	if (!(*s == '_' || ft_isalpha(*s)))
-		return (FALSE);
-	while (s < end)
+	char	*equal_ptr;
+	char	*name;
+
+	equal_ptr = ft_strchr(env, '=');
+	if (equal_ptr != NULL)
+		name = ft_substr(env, 0, equal_ptr - env);
+	else
+		name = ft_strdup(env);
+	if (name == NULL)
+		exit(FAIL);
+	return (name);
+}
+
+void	change_env(char *arg, t_list *env_lst, char *arg_name)
+{
+	char	*env_name;
+
+	while (env_lst != NULL)
 	{
-		if (!(*s == '_' || ft_isalnum(*s)))
-			return (FALSE);
-		s++;
+		env_name = export_extract_name(env_lst->content);
+		if (!ft_strncmp(arg_name, env_name, ft_strlen(arg_name) + 1))
+		{
+			free(env_lst->content);
+			env_lst->content = ft_strdup(arg);
+			if (env_lst->content == NULL)
+				exit(FAIL);
+			free(env_name);
+			return ;
+		}
+		free(env_name);
+		env_lst = env_lst->next;
 	}
-	return (TRUE);
 }
 
-t_bool	env_is_existed(char	*arg, char **envp, char *ptr)
-{
-	int		i;
-
-	i = -1;
-	while (envp[++i] != NULL)
-	{
-		if (ft_strncmp(envp[i], arg, ptr - arg + 1) == 0)
-			return (TRUE);
-	} 
-	return (FALSE);
-}
-
-static void	args_is_string(t_command *cmd, t_info *info, int i, char *ptr)
+static void	export_arg(t_command *cmd, t_info *info, int i)
 {
 	t_list	*new;
+	char	*arg_name;
 
-	if (is_valid_name(cmd->args[i], ptr))
+	arg_name = export_extract_name(cmd->args[i]);
+	if (is_valid_name(arg_name) == TRUE)
 	{
-		if (*(ptr - 1) == '_' || *(ptr + 1) == '\0')
-			return ;
-		if (env_is_existed(cmd->args[i], info->dup_envp, ptr) == FALSE)
+		if (declare_is_existed(arg_name, info->dup_envp) == FALSE)
 		{
 			new = ft_lstnew(ft_strdup(cmd->args[i]));
 			ft_lstadd_back(&(info->env_lst), new);
 		}
 		else
-		{
-			change_env(cmd->args[i], info->env_lst, ptr);
-		}
+			change_env(cmd->args[i], info->env_lst, arg_name);
+		free(arg_name);
 		info->dup_envp = unset_dup_envp(info->env_lst);
 	}
 	else
+	{
+		free(arg_name);
 		export_fprintf_err(cmd->args[i], info);
+	}
 }
 
-void	no_equal_char(char *s, t_info *info)
+static void	declare_name(char *arg, t_info *info)
 {
-	if (!is_valid_name(s, s + ft_strlen(s)))
-		export_fprintf_err(s, info);
+	t_list	*new;
+
+	if (!is_valid_name(arg))
+		export_fprintf_err(arg, info);
+	else
+	{
+		if (declare_is_existed(arg, info->dup_envp) == TRUE)
+			return ;
+		else
+		{
+			new = ft_lstnew(ft_strdup(arg));
+			ft_lstadd_back(&(info->env_lst), new);
+			info->dup_envp = unset_dup_envp(info->env_lst);
+		}
+	}
 }
 
 void	builtins_export(t_command *cmd, t_info *info)
@@ -82,11 +107,11 @@ void	builtins_export(t_command *cmd, t_info *info)
 		{
 			ptr = ft_strchr(cmd->args[i], '=');
 			if (ptr == NULL)
-				no_equal_char(cmd->args[i], info);
+				declare_name(cmd->args[i], info);
 			else
 			{
 				if (cmd->args[i] < ptr)
-					args_is_string(cmd, info, i, ptr);
+					export_arg(cmd, info, i);
 				else
 					export_fprintf_err(cmd->args[i], info);
 			}

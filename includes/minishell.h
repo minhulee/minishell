@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 13:31:21 by minhulee         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:17:19 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,13 @@ void		builtins_unset(t_command *cmd, t_info *info);
 char		**unset_dup_envp(t_list *env_lst);
 
 /* export */
-t_bool		env_is_existed(char	*arg, char **envp, char *ptr);
 void		builtins_export(t_command *cmd, t_info *info);
-void		print_export(t_info *info);
-int			change_env(char *arg, t_list *env_lst, char *ptr);
 void		export_fprintf_err(char *s, t_info *info);
+void		print_export(t_info *info);
+t_bool		declare_is_existed(char *arg, char **envp);
+t_bool		is_valid_name(char *s);
+char		*export_extract_name(char *env);
+void		change_env(char *arg, t_list *env_lst, char *arg_name);
 
 /* 05_exit */
 void	ft_exit(t_info *info, int exit_status);

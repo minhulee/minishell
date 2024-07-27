@@ -6,11 +6,42 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 00:01:57 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 15:01:37 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:16:30 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+t_bool	is_valid_name(char *s)
+{
+	if (!(*s == '_' || ft_isalpha(*s)))
+		return (FALSE);
+	while (*(++s) != '\0')
+	{
+		if (!(*s == '_' || ft_isalnum(*s)))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+t_bool	declare_is_existed(char *arg, char **envp)
+{
+	int		i;
+	char	*name;
+
+	i = -1;
+	while (envp[++i] != NULL)
+	{
+		name = export_extract_name(envp[i]);
+		if (!ft_strncmp(arg, name, ft_strlen(name) + 1))
+		{
+			free(name);
+			return (TRUE);
+		}
+		free(name);
+	}
+	return (FALSE);
+}
 
 void	print_export(t_info *info)
 {
@@ -21,22 +52,6 @@ void	print_export(t_info *info)
 	i = -1;
 	while (envp[++i] != NULL)
 		printf("declare -x %s\n", envp[i]);
-}
-
-int	change_env(char *arg, t_list *env_lst, char *ptr)
-{
-	while (env_lst != NULL)
-	{
-		if (ft_strncmp(arg, env_lst->content, ptr - arg + 1) == 0)
-		{
-			free(env_lst->content);
-			env_lst->content = ft_strdup(arg);
-			if (env_lst->content == NULL)
-				return (1);
-		}
-		env_lst = env_lst->next;
-	}
-	return (0);
 }
 
 void	export_fprintf_err(char *s, t_info *info)

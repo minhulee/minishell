@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 14:56:38 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:16:08 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_bool	unset_is_valid_name(char *s, t_info *info)
 		info->exit_status = FAIL;
 		return (FALSE);
 	}
-	while (*s != '\0')
+	while (*(++s) != '\0')
 	{
 		if (!(*s == '_' || ft_isalnum(*s)))
 		{
@@ -58,26 +58,32 @@ static t_bool	unset_is_valid_name(char *s, t_info *info)
 			info->exit_status = FAIL;
 			return (FALSE);
 		}
-		s++;
 	}
 	return (TRUE);
+}
+
+static t_bool	unset_is_existed(char *arg, char *env)
+{
+	char	*env_name;
+
+	env_name = export_extract_name(env);
+	if (!ft_strncmp(arg, env_name, ft_strlen(arg) + 1))
+		return (TRUE);
+	return (FALSE);
 }
 
 static void	unset_env(char **args, t_list *env_lst, t_info *info, int *cnt)
 {
 	t_list	*tmp;
-	char	*find;
 
 	while (*(++args) != NULL)
 	{
 		if (unset_is_valid_name(*args, info) == FALSE)
 			continue ;
-		find = ft_strjoin(*args, "=");
 		while (env_lst != NULL)
 		{
 			if (env_lst->next != NULL
-				&& ft_strncmp(find, env_lst->next->content,
-					ft_strlen(find)) == 0)
+				&& unset_is_existed(*args, env_lst->next->content))
 			{
 				tmp = env_lst->next->next;
 				ft_lstdelone(env_lst->next, free);
@@ -87,7 +93,6 @@ static void	unset_env(char **args, t_list *env_lst, t_info *info, int *cnt)
 			}
 			env_lst = env_lst->next;
 		}
-		free(find);
 	}
 }
 
