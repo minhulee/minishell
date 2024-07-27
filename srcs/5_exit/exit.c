@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/25 15:53:08 by minhulee          #+#    #+#             */
+/*   Updated: 2024/07/25 18:51:44 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+//void	ft_err(int exit_status)
+//{
+
+//}
+
+void	ft_exit(t_info *info, int exit_status)
 {
-	while (*s != 0)
-	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
+	info->exit_status = exit_status;
+	exit(exit_status);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
-}
-*/

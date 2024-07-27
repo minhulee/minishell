@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/23 14:22:27 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/25 15:59:43 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void	increment_count_if_needed(int *cnt, t_token *token)
 {
-	while (*s != 0)
-	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
+	if (token->type == COMMAND || token->type == ARGUMENT)
+		(*cnt)++;
 }
-/*
-#include <stdio.h>
 
-int	main(void)
+void	parsing_to_pipe_or_end(t_command **tmp, t_token **curr, int *cnt)
 {
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
+	if (init_arg(tmp, *curr, *cnt) == FAIL)
+		exit(FAIL);
+	*tmp = (*tmp)->next;
+	*cnt = 0;
 }
-*/

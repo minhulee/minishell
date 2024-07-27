@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/06 21:20:46 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/25 15:00:41 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void	builtins_env(t_info *info)
 {
-	while (*s != 0)
-	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
-}
-/*
-#include <stdio.h>
+	int	i;
 
-int	main(void)
-{
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
+	info->exit_status = SUCCESS;
+	i = -1;
+	while (info->dup_envp[++i] != NULL)
+		printf("%s\n", info->dup_envp[i]);
 }
-*/

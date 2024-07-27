@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic.h                                            :+:      :+:    :+:   */
+/*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 16:50:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/23 11:05:05 by minhulee         ###   ########seoul.kr  */
+/*   Created: 2024/06/19 14:00:11 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/22 17:48:50 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BASIC_H
-# define BASIC_H
+#include "../../includes/minishell.h"
 
-typedef enum e_bool
+// 기존에 "hello'" 이걸 못받았는데 수정함.
+t_bool	valid_quotes(char *line)
 {
-	FALSE,
-	TRUE,
-}	t_bool;
+	char	tmp;
 
-typedef enum e_status
-{
-	SUCCESS,
-	FAIL,
-}	t_status;
-
-#endif
+	while (*line != '\0')
+	{
+		if (*line == '\'' || *line == '\"')
+		{
+			tmp = *line;
+			line++;
+			line = ft_strchr(line, tmp);
+			if (line == NULL)
+				return (FALSE);
+		}
+		line++;
+	}
+	return (TRUE);
+}

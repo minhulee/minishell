@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   executor_clear.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/21 22:40:19 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/21 22:42:08 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void	clear_executor(t_info *info)
 {
-	while (*s != 0)
-	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
+	delete_heredoc(info->cmd);
+	restore_std_fd(info->cmd);
+	file_lst_clear(&(info->cmd->file_lst));
+	cmd_lst_clear(&(info->cmd));
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
-}
-*/

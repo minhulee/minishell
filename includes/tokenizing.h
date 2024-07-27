@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/02 11:29:30 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/25 12:36:45 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,34 @@
 # define TOKENIZING_H
 
 # include "./basic.h"
-# include "./define.h"
 
-typedef struct	s_token
+typedef enum e_token_type
+{
+	COMMAND,
+	ARGUMENT,
+	INPUT_REDIRECT,
+	OUTPUT_REDIRECT,
+	APPEND_O_REDIRECT,
+	HEREDOC,
+	PIPE,
+	FILE_NAME,
+	END_OF_FILE,
+}	t_token_type;
+
+typedef struct s_token_info
+{
+	char	**envp;
+	int		exit_status;
+}	t_token_info;
+
+typedef struct s_index
+{
+	int		start;
+	int		ptr;
+	t_bool	flag;
+}	t_index;
+
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
@@ -24,32 +49,34 @@ typedef struct	s_token
 	struct s_token	*prev;
 }	t_token;
 
-// tokenizer.c
-t_token			*ft_tokenize(char *line);
+/* token */
+t_token		*new_token(char *value, t_token_type type);
+void		token_lst_append(t_token **lst, t_token *dst);
+void		token_lst_clear(t_token **lst);
+void		token_lst_printf(t_token *lst);
 
-// tokenizer_append.c
-t_status	append_operator(t_token_type type, char **line
-	, t_token **token_lst);
+/* env_to_value */
+void		sfree(void *ptr);
+char		*super_join(char *src1, char *src2);
+char		*substitute_env(char *line, t_token_info *info);
 
-// tokenizer_strtok.c
-t_token	*ft_strtok(char *line);
+/* tokenizer */
+t_token		*ft_tokenize(char *line, char **envp, int exit_status);
 
-// tokenizer_lst.c
-t_token	*token_lst_new(char *value, t_token_type type);
-void	token_lst_clear(t_token **lst);
-void	token_lst_add_back(t_token **lst, t_token *new);
+/* method */
+char		*tokenize_quote_str(char **line);
+char		*tokenize_str(char **line);
+t_status	tokenize_operator(char **line, t_token **token_lst);
+t_status	tokenize_identifier(char **line, t_token **token_lst);
 
-// lst_printf
-void	token_lst_printf(t_token *lst);
-
-// tokenizer_utils.c
+/* utils */
 t_bool		valid_quotes(char *line);
 t_bool		ft_isspace(char c);
 t_bool		ft_isquote(char c);
 t_bool		ft_isoperator(char c);
 t_status	skip_quotes(char *line, int *i);
-
-// tokenizer_classify.c
-void classify_identifier(t_token *token);
+t_bool		subs_is_valid_name(char *name);
+char		*handle_single_quote(char *line, char *res, t_index *index);
+void		init_index(t_index *index);
 
 #endif

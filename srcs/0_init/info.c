@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   info.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 16:57:30 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 12:47:56 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/08 13:07:36 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/23 12:00:46 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-size_t	ft_strlen(const char *s)
+t_status	init_info(t_info *info, char **envp)
 {
-	size_t	len;
-
-	len = 0;
-	while (s[len] != 0)
-		len++;
-	return (len);
+	ft_memset(info, 0, sizeof(t_info));
+	if (init_envp(info, envp) == FAIL)
+		exit(FAIL);
+	tcgetattr(ttyslot(), &info->og_term);
+	return (SUCCESS);
 }
-
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "hello";
-
-	printf("%zu\n", ft_strlen(str));
-
-}
-*/

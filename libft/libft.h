@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewoolee <jewoolee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2023/10/27 16:55:33 by jewoolee         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:47:53 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+
+# include "./get_next_line.h"
+# include "./ft_fprintf.h"
 
 typedef struct s_list
 {
@@ -39,6 +42,7 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strncpy(char *dst, char *src, int len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
@@ -58,8 +62,8 @@ void	*ft_memmove(void *dest, const void *src, size_t len);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *dst);
+void	ft_lstadd_front(t_list **lst, t_list *dst);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));

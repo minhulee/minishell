@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/16 23:11:55 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/23 14:30:56 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strncpy(char *dst, char *src, int len)
 {
-	while (*s != 0)
+	int	i;
+
+	i = 0;
+	while (src[i] && i < len)
 	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
+		dst[i] = src[i];
+		i++;
 	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
+	dst[i] = '\0';
+	return (dst);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
-}
-*/

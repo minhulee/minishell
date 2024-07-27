@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:11:48 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:44 by jewlee           ###   ########.fr       */
+/*   Created: 2024/07/06 17:24:11 by jewlee            #+#    #+#             */
+/*   Updated: 2024/07/25 18:54:13 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+extern int	global_sig;
+
+void	builtins_pwd(t_info *info)
 {
-	while (*s != 0)
+	char	cwd[PATH_MAX];
+
+	if (global_sig == SIGPIPE)
 	{
-		if ((unsigned char)*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
+		// perror("bash: pwd: write error");
+		ft_fprintf(STDERR_FILENO, " Broken pipe\n");
+		ft_exit(info, SIGPIPE);
 	}
-	if ((unsigned char)c == '\0' && (unsigned char)*s == '\0')
-		return ((char *)s);
-	return (NULL);
+	info->exit_status = SUCCESS;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd");
+		info->exit_status = FAIL;
+	}
+	else
+		printf("%s\n", cwd);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "Hello, World!";
-
-	printf("%s\n", ft_strchr(str, '!'));
-	return (0);
-}
-*/
