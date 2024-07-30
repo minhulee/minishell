@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:19:35 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 15:20:15 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/30 11:56:26 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	export_arg(t_command *cmd, t_info *info, int i)
 		else
 			change_env(cmd->args[i], info->env_lst, arg_name);
 		free(arg_name);
+		free_dup_envp(info);
 		info->dup_envp = unset_dup_envp(info->env_lst);
 	}
 	else
@@ -87,6 +88,7 @@ static void	declare_name(char *arg, t_info *info)
 		{
 			new = ft_lstnew(ft_strdup(arg));
 			ft_lstadd_back(&(info->env_lst), new);
+			free_dup_envp(info);
 			info->dup_envp = unset_dup_envp(info->env_lst);
 		}
 	}

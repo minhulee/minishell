@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: minhulee <minhulee@student.42.fr>          +#+  +:+       +#+         #
+#    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/27 13:31:41 by minhulee         ###   ########.fr        #
+#    Updated: 2024/07/29 14:47:33 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 			= 		minishell
 CC 				= 		cc
-CFLAGS 			= 		-Wall -Wextra -Werror -fsanitize=address
+CFLAGS 			= 		-Wall -Wextra -Werror -g
 
 RDFLAGS 		= 		-lreadline
 # for M2
@@ -79,15 +79,15 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	@make -C $(LIBFT_DIR) bonus
 	@echo $(CURSIVE)$(YELLOW) "		- Making $(NAME) -" $(NONE)
-#	@$(CC) $(CFLAGS) $(RDFLAGS) $^ -o $@ $(LIBFT_ARC)
-	@$(CC) $(CFLAGS) $(MAC_RDFLAGS) $^ -o $@ $(INCLUDES) $(RDFLAGS)
+	@$(CC) $(CFLAGS) $(RDFLAGS) $^ -o $@ $(LIBFT_ARC)
+#	@$(CC) $(CFLAGS) $(MAC_RDFLAGS) $^ -o $@ $(INCLUDES) $(RDFLAGS)
 	@echo $(CURSIVE)$(YELLOW) "		- Compiling $(NAME) -" $(NONE)
 	@echo $(GREEN) "		- Complete -"$(NONE)
 
 %.o : %.c
 	@echo $(CURSIVE)$(YELLOW) "		- Making object files -" $(NONE)
-#	@$(CC) $(CFLAGS) -c $< -o $@
-	@$(CC) $(CFLAGS) -c $< -o $@ $(MAC_RDPATH)
+	@$(CC) $(CFLAGS) -c $< -o $@
+#	@$(CC) $(CFLAGS) -c $< -o $@ $(MAC_RDPATH)
 
 debug :
 	cc -g $(RDFLAGS) $(SRCS) ./libft/*.c

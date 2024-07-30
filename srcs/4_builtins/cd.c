@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 19:17:32 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/30 11:56:12 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*load_dir(t_info *info, t_command *cmd)
 			info->exit_status = FAIL;
 			return (NULL);
 		}
-		return (ft_strdup(home));
+		return (home);
 	}
 	else if (cmd->args[1][0] == '~')
 		return (ft_strjoin(getenv ("HOME"), cmd->args[1] + 1));
@@ -49,9 +49,11 @@ void	chagne_oldpwd(t_info *info, char *newpwd)
 
 	oldpwd = ft_strjoin("OLDPWD=", info->pwd);
 	change_env(oldpwd, info->env_lst, oldpwd + 6);
+	free_dup_envp(info);
 	info->dup_envp = unset_dup_envp(info->env_lst);
 	free(info->pwd);
 	info->pwd = newpwd;
+	free(oldpwd);
 }
 
 t_bool	ft_chdir(t_info *info, char *dir)
@@ -93,6 +95,7 @@ void	builtins_cd(t_info *info, t_command *cmd)
 		return ;
 	if (!ft_chdir(info, dir))
 	{
+		// permission dined
 		ft_fprintf(STDERR_FILENO, "No such file or directory\n");
 		info->exit_status = FAIL;
 	}

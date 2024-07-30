@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 15:15:05 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/29 14:59:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,19 @@ void	single_builtins(t_info *info)
 	ft_builtins(info->cmd, info);
 }
 
+static void	clear_path(char *path_env, char **split_path)
+{
+	int	i;
+	if (path_env != NULL)
+		free(path_env);
+	if (split_path != NULL)
+	{
+		i = -1;
+		while (split_path[++i] != NULL)
+			free(split_path[i]);
+		free(split_path);
+	}
+}
 t_status	ft_execute(t_info *info)
 {
 	char		**split_path;
@@ -62,6 +75,7 @@ t_status	ft_execute(t_info *info)
 			path_env = find_path(info->dup_envp);
 			split_path = ft_split(path_env, ':');
 			get_path(split_path, &(info->cmd));
+			clear_path(path_env, split_path);
 			ps_cnt = 0;
 			run_commands(info, info->cmd, &ps_cnt);
 			info->exit_status = wait_children(ps_cnt, info->pid);

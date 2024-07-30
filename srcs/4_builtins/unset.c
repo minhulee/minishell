@@ -6,11 +6,21 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 15:16:08 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/30 11:38:03 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_dup_envp(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (info->dup_envp[++i] != NULL)
+		free(info->dup_envp[i]);
+	free(info->dup_envp);
+}
 
 char	**unset_dup_envp(t_list *env_lst)
 {
@@ -68,7 +78,11 @@ static t_bool	unset_is_existed(char *arg, char *env)
 
 	env_name = export_extract_name(env);
 	if (!ft_strncmp(arg, env_name, ft_strlen(arg) + 1))
+	{
+		free(env_name);
 		return (TRUE);
+	}
+	free(env_name);
 	return (FALSE);
 }
 
@@ -99,17 +113,13 @@ static void	unset_env(char **args, t_list *env_lst, t_info *info, int *cnt)
 void	builtins_unset(t_command *cmd, t_info *info)
 {
 	int		cnt;
-	int		i;
 
 	info->exit_status = SUCCESS;
 	cnt = 0;
 	unset_env(cmd->args, info->env_lst, info, &cnt);
 	if (cnt > 0)
 	{
-		i = -1;
-		while (info->dup_envp[++i] != NULL)
-			free(info->dup_envp[i]);
-		free(info->dup_envp);
+		free_dup_envp(info);
 		info->dup_envp = unset_dup_envp(info->env_lst);
 		if (info->dup_envp == NULL)
 			exit(FAIL);
