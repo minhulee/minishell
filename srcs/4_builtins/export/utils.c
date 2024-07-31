@@ -6,11 +6,21 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 00:01:57 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:31:34 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:43:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	free_dup_envp(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (info->dup_envp[++i] != NULL)
+		free(info->dup_envp[i]);
+	free(info->dup_envp);
+}
 
 t_bool	is_valid_name(char *s)
 {

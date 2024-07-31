@@ -6,21 +6,11 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:47:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:38:03 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:43:08 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_dup_envp(t_info *info)
-{
-	int	i;
-
-	i = -1;
-	while (info->dup_envp[++i] != NULL)
-		free(info->dup_envp[i]);
-	free(info->dup_envp);
-}
 
 char	**unset_dup_envp(t_list *env_lst)
 {

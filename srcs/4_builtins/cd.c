@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:56:12 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:42:37 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	builtins_cd(t_info *info, t_command *cmd)
 		return ;
 	if (!ft_chdir(info, dir))
 	{
-		// permission dined
 		ft_fprintf(STDERR_FILENO, "No such file or directory\n");
 		info->exit_status = FAIL;
 	}

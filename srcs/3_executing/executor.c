@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/29 14:59:17 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:44:32 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	single_builtins(t_info *info)
 static void	clear_path(char *path_env, char **split_path)
 {
 	int	i;
+
 	if (path_env != NULL)
 		free(path_env);
 	if (split_path != NULL)
@@ -60,6 +61,7 @@ static void	clear_path(char *path_env, char **split_path)
 		free(split_path);
 	}
 }
+
 t_status	ft_execute(t_info *info)
 {
 	char		**split_path;

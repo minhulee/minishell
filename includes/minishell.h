@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:34:49 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:46:42 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ t_bool		declare_is_existed(char *arg, char **envp);
 t_bool		is_valid_name(char *s);
 char		*export_extract_name(char *env);
 void		change_env(char *arg, t_list *env_lst, char *arg_name);
+void		free_dup_envp(t_info *info);
 
 /* 05_exit */
-void	ft_exit(t_info *info, int exit_status);
+void		ft_exit(t_info *info, int exit_status);
 
 #endif

@@ -6,16 +6,16 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/29 14:47:33 by jewlee           ###   ########.fr        #
+#    Updated: 2024/07/31 09:47:17 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 			= 		minishell
 CC 				= 		cc
-CFLAGS 			= 		-Wall -Wextra -Werror -g
+CFLAGS 			= 		-Wall -Wextra -Werror
 
 RDFLAGS 		= 		-lreadline
-# for M2
+# for MacBook
 MAC_RDPATH 		= 		-I /opt/homebrew/opt/readline/include
 MAC_RDFLAGS 	=		$(RDPATH) -L/opt/homebrew/opt/readline/lib
 INCLUDES 		=		-L./libft -lft -I./includes

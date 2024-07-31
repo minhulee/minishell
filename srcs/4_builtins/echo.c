@@ -6,13 +6,13 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:41:02 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/26 15:15:35 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:45:16 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int	global_sig;
+extern int	g_sig;
 
 static int	check_flag_n(t_command *cmd)
 {
@@ -65,7 +65,7 @@ static void	print_args_with_flag(t_command *cmd)
 
 void	builtins_echo(t_command *cmd, t_info *info)
 {
-	if (global_sig == SIGPIPE)
+	if (g_sig == SIGPIPE)
 	{
 		ft_fprintf(STDERR_FILENO, " Broken pipe\n");
 		ft_exit(info, SIGPIPE);
