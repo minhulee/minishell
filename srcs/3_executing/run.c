@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:44:52 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 18:35:02 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	child_process(t_command *cmd, t_info *info)
 		valid_cmd_path(cmd->cmd_path);
 		if (execve(cmd->cmd_path, cmd->args, info->dup_envp) == -1)
 		{
-			perror(cmd->cmd_path);
 			ft_fprintf(STDERR_FILENO, "execve() error\n");
 			exit(FAIL);
 		}

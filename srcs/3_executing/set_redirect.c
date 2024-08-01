@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:35:37 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 13:50:20 by minhulee         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:57:07 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	set_redirect_in(t_command *cmd, t_file *file)
 		close(cmd->infile_fd);
 	cmd->infile_fd = open(file->file_name, O_RDONLY, 0644);
 	if (cmd->infile_fd < 0)
-		valid_redirects_path(file->file_name);
+		valid_redirects_in(file->file_name);
 }
 
 static void	set_redirect_out(t_command *cmd, t_file *file)
@@ -27,7 +27,7 @@ static void	set_redirect_out(t_command *cmd, t_file *file)
 		close(cmd->outfile_fd);
 	cmd->outfile_fd = open(file->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->outfile_fd < 0)
-		valid_redirects_path(file->file_name);
+		valid_redirects_out(file->file_name);
 }
 
 static void	set_redirect_app_out(t_command *cmd, t_file *file)
@@ -37,7 +37,7 @@ static void	set_redirect_app_out(t_command *cmd, t_file *file)
 	cmd->outfile_fd = open(file->file_name,
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->outfile_fd < 0)
-		valid_redirects_path(file->file_name);
+		valid_redirects_out(file->file_name);
 }
 
 void	set_redirect_fd(t_command *cmd)

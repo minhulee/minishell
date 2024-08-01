@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 13:52:15 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 18:57:23 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void		run_commands(t_info *info, t_command *cmd, int *cnt);
 
 /* vaild */
 t_bool		is_dir(char *path);
-void		valid_redirects_path(char *path);
+void		valid_redirects_in(char *path);
+void		valid_redirects_out(char *path);
 void		valid_cmd_path(char *cmd_path);
 
 /* clear */
