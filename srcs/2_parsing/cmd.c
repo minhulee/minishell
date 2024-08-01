@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 14:57:53 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:49:34 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_command	*cmd_lst_last(t_command *cmd)
 void	cmd_lst_clear(t_command **lst)
 {
 	t_command	*curr;
-	t_command	*tmp;
+	t_command	*next;
 	int			i;
 
 	if (lst == NULL)
@@ -65,11 +65,10 @@ void	cmd_lst_clear(t_command **lst)
 	curr = *lst;
 	while (curr != NULL)
 	{
-		tmp = curr->next;
-		if (curr->cmd != NULL)
-			free(curr->cmd);
-		if (curr->cmd_path != NULL)
-			free(curr->cmd_path);
+		next = curr->next;
+		file_lst_clear(&(curr->file_lst));
+		sfree(curr->cmd);
+		sfree(curr->cmd_path);
 		if (curr->args != NULL)
 		{
 			i = -1;
@@ -78,7 +77,7 @@ void	cmd_lst_clear(t_command **lst)
 			free(curr->args);
 		}
 		free(curr);
-		curr = tmp;
+		curr = next;
 	}
 	*lst = NULL;
 }

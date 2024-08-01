@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 23:57:50 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:02:33 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:48:36 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,21 @@ void	file_lst_append(t_file **f_lst, t_file *new)
 	curr->next = new;
 }
 
-void	file_lst_clear(t_command *cmd)
+void	file_lst_clear(t_file **f_lst)
 {
-	t_command	*cur_cmd;
-	t_file		*cur_file;
+	t_file		*cur;
 	t_file		*next;
 
-	if (cmd->file_lst == NULL)
+	if (*f_lst == NULL)
 		return ;
-	cur_cmd = cmd;
-	while (cur_cmd != NULL)
+	cur = *f_lst;
+	while (cur != NULL)
 	{
-		cur_file = cur_cmd->file_lst;
-		while (cur_file != NULL)
-		{
-			sfree(cur_file->file_name);
-			sfree(cur_file->delimit);
-			next = cur_file->next;
-			sfree(cur_file);
-			cur_file = next;
-		}
-		cur_cmd = cur_cmd->next;
+		sfree(cur->file_name);
+		sfree(cur->delimit);
+		next = cur->next;
+		sfree(cur);
+		cur = next;
 	}
+	*f_lst = NULL;
 }

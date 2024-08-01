@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 00:00:51 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 19:04:48 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:35:21 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,50 @@ t_bool	is_dir(char *path)
     return ((path_stat.st_mode & S_IFMT) == S_IFDIR);
 }
 
-void	valid_redirects_in(char *path)
+int	valid_redirects_in(t_command *cmd, char *path)
 {
 	if (access(path, F_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: No such file or directory\n", path);
-		exit(1);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
 	}
 	if (access(path, R_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: Permission denied\n", path);
-		exit(1);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
 	}
+	return (SUCCESS);
 }
 
-void	valid_redirects_out(char *path)
+int	valid_redirects_out(t_command *cmd, char *path)
 {
 	if (is_dir(path))
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: is a directory\n", path);
-		exit(1);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
 	}
-	if (access(path, W_OK) == -1)
+	if (!access(path, F_OK) && access(path, W_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: Permission denied\n", path);
-		exit(1);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
 	}
+	return (SUCCESS);
 }
 
 void	valid_cmd_path(char *cmd_path)
 {
-	printf("%s\n", cmd_path);
 	if (access(cmd_path, F_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,

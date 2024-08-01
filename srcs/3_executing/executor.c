@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:37:13 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:43:14 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ static int	wait_children(int ps_cnt, pid_t last_pid)
 
 void	single_builtins(t_info *info)
 {
-	set_redirect_fd(info->cmd);
-	set_file_fd(info->cmd);
 	info->cmd->is_parent = TRUE;
+	if (set_redirect_fd(info->cmd) == FAIL)
+	{
+		info->exit_status = FAIL;
+		return ;
+	}
+	set_file_fd(info->cmd);
 	ft_builtins(info->cmd, info);
 }
 
@@ -81,7 +85,8 @@ t_status	ft_execute(t_info *info)
 {
 	if (!process_heredoc(info, info->cmd))
 	{
-		if (info->cmd->next == NULL && info->cmd->builtin_type != NOTBUILTIN)
+		if (info->cmd->next == NULL && info->cmd->builtin_type != NOTBUILTIN
+			&& ft_strncmp(info->cmd->cmd, "echo\0", 5) != 0)
 			single_builtins(info);
 		else if (info->cmd != NULL)
 			run_cmd(info);

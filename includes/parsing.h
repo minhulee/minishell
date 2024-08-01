@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:05 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 14:38:23 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:48:57 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		cmd_lst_printf(t_command *cmd_lst);
 /* file */
 t_file		*new_file(t_token_type type, char *content);
 void		file_lst_append(t_file **f_lst, t_file *src);
-void		file_lst_clear(t_command *cmd);
+void		file_lst_clear(t_file **f_lst);
 
 /* parser */
 t_command	*ft_parse(t_token *token, int *heredoc_cnt);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 18:57:23 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:30:24 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int			process_heredoc(t_info *info, t_command *cmd);
 void		delete_heredoc(t_command *cmd);
 
 /* set_redirect */
-void		set_redirect_fd(t_command *cmd);
+int			set_redirect_fd(t_command *cmd);
 
 /* set_fd */
 void		set_file_fd(t_command *cmd);
@@ -92,8 +92,8 @@ void		run_commands(t_info *info, t_command *cmd, int *cnt);
 
 /* vaild */
 t_bool		is_dir(char *path);
-void		valid_redirects_in(char *path);
-void		valid_redirects_out(char *path);
+int			valid_redirects_in(t_command *cmd, char *path);
+int			valid_redirects_out(t_command *cmd, char *path);
 void		valid_cmd_path(char *cmd_path);
 
 /* clear */
