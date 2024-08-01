@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 18:12:02 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:14:45 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void	token_lst_printf(t_token *lst)
 {
 	while (lst != NULL)
 	{
-		printf("%d\n", lst->type);
-		printf("%s\n", lst->value);
+		printf("v : [%s]\n", lst->value);
+		printf("t : [%d]\n", lst->type);
 		lst = lst->next;
 	}
+	printf("----------------------\n");
 }

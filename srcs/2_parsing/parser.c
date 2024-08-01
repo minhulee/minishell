@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:55:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 16:00:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 12:10:22 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,13 @@ static t_command	*prepare_cmd_lst(int num_pipe)
 
 	cmd_lst = NULL;
 	i = -1;
-	while (++i < num_pipe)
+	while (++i <= num_pipe)
 	{
 		new = new_cmd(NULL);
 		if (new == NULL)
 			exit(FAIL);
 		cmd_lst_append(&cmd_lst, new);
 	}
-	new = new_cmd(NULL);
-	if (new == NULL)
-		exit(FAIL);
-	cmd_lst_append(&cmd_lst, new);
 	return (cmd_lst);
 }
 

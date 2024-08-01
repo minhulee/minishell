@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/31 09:44:49 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:29:57 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,17 @@
 
 int	g_sig;
 
-void	handle_sigpipe(int sig)
-{
-	if (sig == SIGPIPE)
-	{
-		g_sig = SIGPIPE;
-		ft_fprintf(STDERR_FILENO, " Broken pipe\n");
-		exit(SIGPIPE);
-	}
-}
-
 void	valid_out_pipe(t_info *info)
 {
-	signal(SIGPIPE, handle_sigpipe);
-	if (g_sig != SIGPIPE)
-		write(STDOUT_FILENO, "", 0);
-	if (g_sig == SIGPIPE)
-	{
-		write(STDERR_FILENO, "minishell$ ", 11);
-		info->line = get_next_line(STDIN_FILENO);
-	}
-	else
+	// signal(SIGPIPE, handle_sigpipe);
+	// if (g_sig != SIGPIPE)
+	// 	write(STDOUT_FILENO, "", 0);
+	// if (g_sig == SIGPIPE)
+	// {
+	// 	write(STDERR_FILENO, "minishell$ ", 11);
+	// 	info->line = get_next_line(STDIN_FILENO);
+	// }
+	// else
 		info->line = readline("minishell$ ");
 }
 
@@ -46,8 +36,7 @@ t_status	ft_minishell(t_info *info)
 	info->cmd = ft_parse(info->token, &(info->total_heredoc_cnt));
 	if (info->cmd == NULL)
 		return (FAIL);
-	ft_execute(info);
-	return (SUCCESS);
+	return (ft_execute(info));
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:49 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/31 09:42:37 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 16:09:15 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	chagne_oldpwd(t_info *info, char *newpwd)
 	char	*oldpwd;
 
 	oldpwd = ft_strjoin("OLDPWD=", info->pwd);
-	change_env(oldpwd, info->env_lst, oldpwd + 6);
+	change_env(oldpwd, info->env_lst, "OLDPWD");
 	free_dup_envp(info);
 	info->dup_envp = unset_dup_envp(info->env_lst);
 	free(info->pwd);

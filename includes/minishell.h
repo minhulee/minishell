@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/31 09:46:42 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 13:52:15 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define TEMPFILE "/tmp/heredoc_"
 # define NONE -1
 
+extern int	g_sig;
+
 typedef struct s_info
 {
 	int					total_heredoc_cnt;
@@ -53,7 +55,8 @@ typedef struct s_info
 /* 0_init */
 t_status	init_info(t_info *info, char **envp);
 t_status	init_envp(t_info *info, char **envp);
-void		heredoc_sigint(int sig);
+void		handle_sigpipe(int sig);
+void		handle_heredoc(int sig);
 void		init_signal(t_info *info);
 
 /* 01_tokenizing */

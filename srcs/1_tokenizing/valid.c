@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:00:11 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 17:48:50 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/01 11:46:50 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// 기존에 "hello'" 이걸 못받았는데 수정함.
 t_bool	valid_quotes(char *line)
 {
 	char	tmp;

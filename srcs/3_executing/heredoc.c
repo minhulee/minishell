@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:49:43 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 19:08:38 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/01 15:02:38 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	init_heredoc(t_command *cmd)
 {
 	int		i;
-	char	*tmp_i;
-	char	*tmp;
+	char	*itoa;
 	t_file	*f_lst;
 
 	i = 1;
@@ -27,10 +26,11 @@ void	init_heredoc(t_command *cmd)
 		{
 			if (f_lst->type == HEREDOC)
 			{
-				tmp_i = ft_itoa(i);
-				tmp = ft_strjoin(TEMPFILE, tmp_i);
-				free(tmp_i);
-				f_lst->file_name = tmp;
+				itoa = ft_itoa(i);
+				f_lst->file_name = ft_strjoin(TEMPFILE, itoa);
+				free(itoa);
+				if (!f_lst->file_name)
+					exit(FAIL);
 			}
 			f_lst = f_lst->next;
 		}
@@ -60,7 +60,6 @@ void	write_heredoc(char *delimiter, int fd)
 void	create_heredoc(t_info *info, t_command *cmd)
 {
 	int		fd;
-	char	*delimiter;
 	t_file	*f_lst;
 
 	while (cmd != NULL && info->total_heredoc_cnt > 0)
@@ -71,8 +70,7 @@ void	create_heredoc(t_info *info, t_command *cmd)
 			if (f_lst->type == HEREDOC)
 			{
 				fd = open(f_lst->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				delimiter = f_lst->delimit;
-				write_heredoc(delimiter, fd);
+				write_heredoc(f_lst->delimit, fd);
 				(cmd->heredoc_cnt)--;
 				(info->total_heredoc_cnt)--;
 				close(fd);
@@ -96,7 +94,9 @@ int	process_heredoc(t_info *info, t_command *cmd)
 	pid = fork();
 	if (!pid)
 	{
-		signal(SIGINT, heredoc_sigint);
+		// signal(SIGPIPE, handle_sigpipe);
+		signal(SIGINT, handle_heredoc);
+		signal(SIGQUIT, handle_heredoc);
 		create_heredoc(info, info->cmd);
 	}
 	else
@@ -120,11 +120,6 @@ void	delete_heredoc(t_command *cmd)
 			{
 				if (access(file->file_name, F_OK) == 0)
 					unlink(file->file_name);
-				if (file->file_name != NULL)
-				{
-					free(file->file_name);
-					file->file_name = NULL;
-				}
 			}
 			file = file->next;
 		}

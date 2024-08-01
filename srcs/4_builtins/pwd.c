@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:24:11 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/31 09:46:09 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:49:17 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@ void	builtins_pwd(t_info *info)
 
 	if (g_sig == SIGPIPE)
 	{
-		ft_fprintf(STDERR_FILENO, " Broken pipe\n");
-		ft_exit(info, SIGPIPE);
+		ft_fprintf(STDERR_FILENO, "minishell: pwd: write error: Broken pipe\n");
+		ft_exit(info, FAIL);
 	}
 	info->exit_status = SUCCESS;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd");
-		info->exit_status = FAIL;
-	}
+		printf("%s\n", info->pwd);
 	else
 		printf("%s\n", cwd);
 }

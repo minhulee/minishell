@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:15:21 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:44:52 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static void	child_process(t_command *cmd, t_info *info)
 {
 	set_fd(cmd);
+	if (!cmd->cmd)
+		exit(SUCCESS);
 	if (cmd->builtin_type != NOTBUILTIN)
 	{
 		ft_builtins(cmd, info);
@@ -67,6 +69,7 @@ void	run_commands(t_info *info, t_command *cmd, int *cnt)
 {
 	while (cmd != NULL)
 	{
+		// signal(SIGPIPE, handle_sigpipe);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (cmd->next != NULL)

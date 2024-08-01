@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 00:00:07 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/22 18:11:30 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/01 11:49:24 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	**init_dup_envp(char **envp)
 	return (dup_envp);
 }
 
-// content = ft_strdup -> 실패시 all free 필요
 t_status	init_envp(t_info *info, char **envp)
 {
 	int		i;
@@ -64,6 +63,8 @@ t_status	init_envp(t_info *info, char **envp)
 	while (info->dup_envp[++i] != NULL)
 	{
 		content = ft_strdup(info->dup_envp[i]);
+		if (content == NULL)
+			return (FAIL);
 		new = ft_lstnew(content);
 		if (new == NULL)
 		{

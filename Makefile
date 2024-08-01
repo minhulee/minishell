@@ -6,13 +6,13 @@
 #    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/07/31 09:47:17 by jewlee           ###   ########.fr        #
+#    Updated: 2024/08/01 15:24:02 by jewlee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 			= 		minishell
 CC 				= 		cc
-CFLAGS 			= 		-Wall -Wextra -Werror
+CFLAGS 			= 		-Wall -Werror -Wextra
 
 RDFLAGS 		= 		-lreadline
 # for MacBook

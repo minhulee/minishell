@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:40:32 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 12:36:45 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 12:03:42 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_token
 
 /* token */
 t_token		*new_token(char *value, t_token_type type);
-void		token_lst_append(t_token **lst, t_token *dst);
+void		token_lst_append(t_token **lst, t_token *new);
 void		token_lst_clear(t_token **lst);
 void		token_lst_printf(t_token *lst);
 

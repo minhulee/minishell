@@ -6,13 +6,13 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:51:18 by minhulee          #+#    #+#             */
-/*   Updated: 2024/07/25 19:10:35 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 14:03:44 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	default_sigint(int sig)
+static void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -23,10 +23,26 @@ static void	default_sigint(int sig)
 	}
 }
 
-void	heredoc_sigint(int sig)
+void	handle_sigpipe(int sig)
+{
+	if (sig == SIGPIPE)
+	{
+		g_sig = SIGPIPE;
+	}
+}
+
+void	handle_heredoc(int sig)
 {
 	if (sig == SIGINT)
-		exit(SIGINT);
+	{
+		g_sig = SIGINT;
+		exit(1);
+	}
+	else if (sig == SIGQUIT)
+	{
+		g_sig = SIGQUIT;
+		exit(0);
+	}
 }
 
 void	init_signal(t_info *info)
@@ -36,6 +52,7 @@ void	init_signal(t_info *info)
 	term = info->og_term;
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	signal(SIGINT, default_sigint);
+	signal(SIGINT, handle_sigint);
+	// signal(SIGPIPE, handle_sigpipe);
 	signal(SIGQUIT, SIG_IGN);
 }

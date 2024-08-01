@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 18:45:22 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:22:55 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	define_cmd(t_token *token)
 	curr = token;
 	while (curr->prev != NULL && curr->prev->type != PIPE)
 		curr = curr->prev;
-	while (curr)
+	while (curr && curr->type != PIPE)
 	{
 		if (curr->type == COMMAND)
 			break ;
@@ -44,7 +44,7 @@ void	define_token_type(t_token *token)
 						|| token->prev->type == OUTPUT_REDIRECT
 						|| token->prev->type == APPEND_O_REDIRECT))
 					token->type = FILE_NAME;
-				else if (token->prev->type == HEREDOC)
+				if (token->prev->type == HEREDOC)
 					token->type = END_OF_FILE;
 			}
 		}
@@ -97,17 +97,17 @@ t_token	*ft_tokenize(char *line, char **envp, int exit_status)
 	}
 	init_token_info(&info, envp, exit_status);
 	expand_line = substitute_env(line, &info);
+	sfree(line);
 	if (expand_line == NULL)
-		exit(FAIL);
-	free(line);
+		return (NULL);
 	if (ft_strlen(expand_line) == 0)
 	{
 		free(expand_line);
 		return (NULL);
 	}
 	token_lst = ft_strtok(expand_line);
+	sfree(expand_line);
 	if (token_lst == NULL)
-		exit(FAIL);
-	free(expand_line);
+		return (NULL);
 	return (token_lst);
 }
