@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:37:13 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:08:47 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static int	wait_children(int ps_cnt, pid_t last_pid)
 
 void	single_builtins(t_info *info)
 {
-	set_redirect_fd(info->cmd);
+	if (set_redirect_fd(info, info->cmd) == FAIL)
+		return ;
 	set_file_fd(info->cmd);
 	info->cmd->is_parent = TRUE;
 	ft_builtins(info->cmd, info);

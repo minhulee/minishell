@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 13:52:15 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:08:12 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ int			process_heredoc(t_info *info, t_command *cmd);
 void		delete_heredoc(t_command *cmd);
 
 /* set_redirect */
-void		set_redirect_fd(t_command *cmd);
+int			set_redirect_fd(t_info *info, t_command *cmd);
 
 /* set_fd */
 void		set_file_fd(t_command *cmd);
-void		set_fd(t_command *cmd);
+void		set_fd(t_info *info, t_command *cmd);
 void		restore_std_fd(t_command *cmd);
 
 /* path */
@@ -92,7 +92,7 @@ void		run_commands(t_info *info, t_command *cmd, int *cnt);
 
 /* vaild */
 t_bool		is_dir(char *path);
-void		valid_redirects_path(char *path);
+int		valid_redirects_path(char *path);
 void		valid_cmd_path(char *cmd_path);
 
 /* clear */

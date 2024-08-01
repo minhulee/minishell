@@ -6,7 +6,7 @@
 /*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:44:52 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:05:06 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	child_process(t_command *cmd, t_info *info)
 {
-	set_fd(cmd);
+	set_fd(info, cmd);
 	if (!cmd->cmd)
 		exit(SUCCESS);
 	if (cmd->builtin_type != NOTBUILTIN)

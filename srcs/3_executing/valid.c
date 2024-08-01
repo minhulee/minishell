@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhulee <minhulee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 00:00:51 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/27 13:50:47 by minhulee         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:01:28 by jewlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,27 @@ t_bool	is_dir(char *path)
 	return (FALSE);
 }
 
-void	valid_redirects_path(char *path)
+int	valid_redirects_path(char *path)
 {
+	if (is_dir(path))
+	{
+		ft_fprintf(STDERR_FILENO,
+			"minishell: %s: is a directory\n", path);
+		return (FAIL);
+	}
 	if (access(path, F_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: No such file or directory\n", path);
-		exit(1);
+		return (FAIL);
 	}
 	if (access(path, X_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: %s: Permission denied\n", path);
-		exit(1);
+		return (FAIL);
 	}
+	return (SUCCESS);
 }
 
 void	valid_cmd_path(char *cmd_path)
