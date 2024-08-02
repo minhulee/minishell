@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+         #
+#    By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 23:57:57 by jewlee            #+#    #+#              #
-#    Updated: 2024/08/01 15:24:02 by jewlee           ###   ########.fr        #
+#    Updated: 2024/08/02 09:53:00 by minhulee         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,6 @@ DELETELINE='\033[K;
 ###################
 
 all : $(NAME)
-	@make clean
 
 $(NAME) : $(OBJ)
 	@make -C $(LIBFT_DIR) bonus

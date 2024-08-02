@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:12:58 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:22:55 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 10:49:29 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,20 @@ void	init_token_info(t_token_info *info, char **envp, int exit_status)
 
 t_token	*ft_tokenize(char *line, char **envp, int exit_status)
 {
-	t_token_info	info;
+	t_token_info	t_info;
 	t_token			*token_lst;
 	char			*expand_line;
 
 	if (valid_quotes(line) == FALSE)
 	{
-		ft_fprintf(STDERR_FILENO, "Invalid quote\n");
+		ft_fprintf(STDERR_FILENO, "minishell: Invalid quote\n");
+		sfree(line);
 		return (NULL);
 	}
-	init_token_info(&info, envp, exit_status);
-	expand_line = substitute_env(line, &info);
+	init_token_info(&t_info, envp, exit_status);
+	expand_line = substitute_env(line, &t_info);
 	sfree(line);
-	if (expand_line == NULL)
+	if (!expand_line)
 		return (NULL);
 	if (ft_strlen(expand_line) == 0)
 	{
@@ -107,7 +108,7 @@ t_token	*ft_tokenize(char *line, char **envp, int exit_status)
 	}
 	token_lst = ft_strtok(expand_line);
 	sfree(expand_line);
-	if (token_lst == NULL)
+	if (!token_lst)
 		return (NULL);
 	return (token_lst);
 }

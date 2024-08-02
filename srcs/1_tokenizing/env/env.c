@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:15:39 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/25 12:37:23 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 10:54:54 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,12 @@ char	*handle_dollar(char *line, char *res, t_index *idx, t_token_info *info)
 	char	*env;
 
 	if (line[idx->ptr + 1] == '?')
-		env = replace_exit_status(line, idx, info->exit_status);
+	{
+		if (g_sig == SIGINT)
+			env = replace_exit_status(line, idx, FAIL);
+		else
+			env = replace_exit_status(line, idx, info->exit_status);
+	}
 	else
 		env = super_join(ft_substr(line, idx->start, idx->ptr - idx->start),
 				is_exist_env(line, info->envp, idx));

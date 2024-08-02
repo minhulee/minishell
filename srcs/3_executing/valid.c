@@ -6,41 +6,60 @@
 /*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 00:00:51 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 19:35:21 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/02 10:16:55 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// t_bool	is_dir(char *path)
-// {
-// 	DIR	*dir;
-
-// 	dir = opendir(path); // -> 폴더인가 아닌가? | 여는 권한이 없으면
-// 	if (dir)
-// 	{
-// 		printf("1\n");
-// 		closedir(dir);
-// 		return (TRUE);
-// 	}
-// 	printf("0\n");
-// 	return (FALSE);
-// }
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
 t_bool	is_dir(char *path)
 {
-	struct stat path_stat;
-    if (stat(path, &path_stat) != 0) {
-        return FALSE;
-    }
-    return ((path_stat.st_mode & S_IFMT) == S_IFDIR);
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+		return (FALSE);
+	return ((path_stat.st_mode & S_IFMT) == S_IFDIR);
+}
+
+static t_bool	valid_prev_path(char *path)
+{
+	char	*tmp_path;
+	int		ptr;
+	t_bool	first_slash;
+
+	first_slash = FALSE;
+	ptr = -1;
+	while (path[++ptr] != '\0')
+	{
+		if (path[ptr] == '/')
+		{
+			if (!first_slash)
+				first_slash = TRUE;
+			else
+			{
+				tmp_path = ft_substr(path, 0, ptr);
+				if (!is_dir(tmp_path) && ft_strchr(path + ptr, '/'))
+				{
+					free(tmp_path);
+					return (FALSE);
+				}
+				free(tmp_path);
+			}
+		}
+	}
+	return (TRUE);
 }
 
 int	valid_redirects_in(t_command *cmd, char *path)
 {
+	if (valid_prev_path(path) == FALSE)
+	{
+		ft_fprintf(STDERR_FILENO,
+			"minishell: %s: Not a directory\n", path);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
+	}
 	if (access(path, F_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,
@@ -62,6 +81,14 @@ int	valid_redirects_in(t_command *cmd, char *path)
 
 int	valid_redirects_out(t_command *cmd, char *path)
 {
+	if (valid_prev_path(path) == FALSE)
+	{
+		ft_fprintf(STDERR_FILENO,
+			"minishell: %s: Not a directory\n", path);
+		if (!cmd->is_parent)
+			exit(FAIL);
+		return (FAIL);
+	}
 	if (is_dir(path))
 	{
 		ft_fprintf(STDERR_FILENO,
@@ -83,6 +110,12 @@ int	valid_redirects_out(t_command *cmd, char *path)
 
 void	valid_cmd_path(char *cmd_path)
 {
+	if (valid_prev_path(cmd_path) == FALSE)
+	{
+		ft_fprintf(STDERR_FILENO,
+			"minishell: %s: Not a directory\n", cmd_path);
+		exit(126);
+	}
 	if (access(cmd_path, F_OK) == -1)
 	{
 		ft_fprintf(STDERR_FILENO,

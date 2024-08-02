@@ -6,7 +6,7 @@
 /*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 23:57:09 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 19:30:24 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/02 11:01:35 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <termios.h>
 # include <sys/wait.h>
 # include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 # include "../libft/libft.h"
 
@@ -57,6 +59,7 @@ t_status	init_info(t_info *info, char **envp);
 t_status	init_envp(t_info *info, char **envp);
 void		handle_sigpipe(int sig);
 void		handle_heredoc(int sig);
+void		restore_term(t_info *info);
 void		init_signal(t_info *info);
 
 /* 01_tokenizing */

@@ -6,7 +6,7 @@
 /*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:04:28 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 19:43:14 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/02 08:58:48 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ t_status	ft_execute(t_info *info)
 {
 	if (!process_heredoc(info, info->cmd))
 	{
+		info->exit_status = SUCCESS;
 		if (info->cmd->next == NULL && info->cmd->builtin_type != NOTBUILTIN
-			&& ft_strncmp(info->cmd->cmd, "echo\0", 5) != 0)
+			&& ft_strncmp(info->cmd->cmd, "echo", 5) != 0)
 			single_builtins(info);
 		else if (info->cmd != NULL)
 			run_cmd(info);

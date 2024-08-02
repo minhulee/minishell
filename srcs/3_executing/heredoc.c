@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:49:43 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:02:38 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 08:56:40 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	process_heredoc(t_info *info, t_command *cmd)
 	pid = fork();
 	if (!pid)
 	{
-		// signal(SIGPIPE, handle_sigpipe);
 		signal(SIGINT, handle_heredoc);
 		signal(SIGQUIT, handle_heredoc);
 		create_heredoc(info, info->cmd);

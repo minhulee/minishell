@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 02:43:40 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:14:45 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 09:49:17 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,4 @@ void	token_lst_clear(t_token **lst)
 		cur = next;
 	}
 	*lst = NULL;
-}
-
-void	token_lst_printf(t_token *lst)
-{
-	while (lst != NULL)
-	{
-		printf("v : [%s]\n", lst->value);
-		printf("t : [%d]\n", lst->type);
-		lst = lst->next;
-	}
-	printf("----------------------\n");
 }

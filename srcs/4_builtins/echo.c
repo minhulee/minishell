@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:41:02 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 13:58:40 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 08:50:05 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-extern int	g_sig;
 
 static int	check_flag_n(t_command *cmd)
 {
@@ -65,11 +63,6 @@ static void	print_args_with_flag(t_command *cmd)
 
 void	builtins_echo(t_command *cmd, t_info *info)
 {
-	if (g_sig == SIGPIPE)
-	{
-		ft_fprintf(STDERR_FILENO, "minishell: echo: write error: Broken pipe\n");
-		ft_exit(info, FAIL);
-	}
 	info->exit_status = SUCCESS;
 	if (cmd->args[1] == NULL)
 		ft_fprintf(STDOUT_FILENO, "\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:51:18 by minhulee          #+#    #+#             */
-/*   Updated: 2024/08/01 14:03:44 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 11:01:16 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,11 @@ static void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_sig = SIGINT;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-	}
-}
-
-void	handle_sigpipe(int sig)
-{
-	if (sig == SIGPIPE)
-	{
-		g_sig = SIGPIPE;
 	}
 }
 
@@ -45,6 +38,15 @@ void	handle_heredoc(int sig)
 	}
 }
 
+void	restore_term(t_info *info)
+{
+	struct termios	term;
+
+	term = info->og_term;
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 void	init_signal(t_info *info)
 {
 	struct termios	term;
@@ -53,6 +55,7 @@ void	init_signal(t_info *info)
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal(SIGINT, handle_sigint);
-	// signal(SIGPIPE, handle_sigpipe);
 	signal(SIGQUIT, SIG_IGN);
+	if (g_sig == SIGINT)
+		g_sig = SUCCESS;
 }

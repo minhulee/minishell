@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:19:35 by jewlee            #+#    #+#             */
-/*   Updated: 2024/07/30 11:56:26 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 09:19:26 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*export_extract_name(char *env)
 		name = ft_substr(env, 0, equal_ptr - env);
 	else
 		name = ft_strdup(env);
-	if (name == NULL)
+	if (!name)
 		exit(FAIL);
 	return (name);
 }
@@ -38,7 +38,7 @@ void	change_env(char *arg, t_list *env_lst, char *arg_name)
 		{
 			free(env_lst->content);
 			env_lst->content = ft_strdup(arg);
-			if (env_lst->content == NULL)
+			if (!env_lst->content)
 				exit(FAIL);
 			free(env_name);
 			return ;

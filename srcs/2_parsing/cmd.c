@@ -6,7 +6,7 @@
 /*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:09:23 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 19:49:34 by minhulee         ###   ########seoul.kr  */
+/*   Updated: 2024/08/02 09:49:08 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,39 +80,4 @@ void	cmd_lst_clear(t_command **lst)
 		curr = next;
 	}
 	*lst = NULL;
-}
-
-void	cmd_lst_printf(t_command *cmd_lst)
-{
-	int		i;
-	t_file	*tmp;
-
-	while (cmd_lst != NULL)
-	{
-		printf("cmd : %s\n", cmd_lst->cmd);
-		printf("cmd_path : %s\n", cmd_lst->cmd_path);
-		i = 0;
-		while (cmd_lst->args != NULL && (cmd_lst->args)[i] != NULL)
-		{
-			printf("args[%d]: %s\n", i, cmd_lst->args[i]);
-			i++;
-		}
-		tmp = cmd_lst->file_lst;
-		while (tmp != NULL)
-		{
-			if (tmp->type == HEREDOC)
-			{
-				printf("heredoc : %s\n", tmp->delimit);
-				if (tmp->file_name != NULL)
-					printf("file_name : %s\n", tmp->file_name);
-			}
-			else
-				printf("file_name : %s\n type : %d\n", tmp->file_name, tmp->type);
-			tmp = tmp->next;
-		}
-		printf("heredoc_cnt : %d\n", cmd_lst->heredoc_cnt);
-		printf("Builtin %d\n", cmd_lst->builtin_type);
-		printf("------------\n");
-		cmd_lst = cmd_lst->next;
-	}
 }

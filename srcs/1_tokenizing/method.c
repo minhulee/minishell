@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   method.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:47:00 by minhulee          #+#    #+#             */
-/*   Updated: 2024/08/01 15:12:28 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 09:33:05 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,7 @@ t_status	tokenize_identifier(char **line, t_token **token_lst)
 			tmp = tokenize_quote_str(line);
 		else
 			tmp = tokenize_str(line);
-		if (content != NULL)
-		{
-			content = ft_strjoin(content, tmp);
-			free(tmp);
-		}
-		else
-			content = tmp;
+		content = super_join(content, tmp);
 	}
 	new = new_token(content, ARGUMENT);
 	if (new == NULL)

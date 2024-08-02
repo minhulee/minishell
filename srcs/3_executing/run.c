@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:49:29 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 18:35:02 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 11:01:53 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,18 @@ void	run_commands(t_info *info, t_command *cmd, int *cnt)
 {
 	while (cmd != NULL)
 	{
-		// signal(SIGPIPE, handle_sigpipe);
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		if (cmd->next != NULL)
 			pipe(cmd->curr_pipe_fd);
 		info->pid = fork();
 		if (fork_error_catch(info->pid))
 			return ;
 		else if (info->pid == 0)
+		{
+			restore_term(info);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			child_process(cmd, info);
+		}
 		else
 			parent_process(cmd);
 		cmd = cmd->next;

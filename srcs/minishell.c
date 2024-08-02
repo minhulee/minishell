@@ -3,30 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewlee <jewlee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: minhulee <minhulee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:56:53 by jewlee            #+#    #+#             */
-/*   Updated: 2024/08/01 15:29:57 by jewlee           ###   ########.fr       */
+/*   Updated: 2024/08/02 10:45:17 by minhulee         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_sig;
-
-void	valid_out_pipe(t_info *info)
-{
-	// signal(SIGPIPE, handle_sigpipe);
-	// if (g_sig != SIGPIPE)
-	// 	write(STDOUT_FILENO, "", 0);
-	// if (g_sig == SIGPIPE)
-	// {
-	// 	write(STDERR_FILENO, "minishell$ ", 11);
-	// 	info->line = get_next_line(STDIN_FILENO);
-	// }
-	// else
-		info->line = readline("minishell$ ");
-}
 
 t_status	ft_minishell(t_info *info)
 {
@@ -50,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		init_signal(&info);
-		valid_out_pipe(&info);
+		info.line = readline("minishell$ ");
 		if (info.line == NULL)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
